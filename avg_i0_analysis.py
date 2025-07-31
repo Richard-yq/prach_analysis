@@ -46,7 +46,46 @@ print(f"資料範圍: Frame {min(frame_slots):.2f} 到 {max(frame_slots):.2f}")
 print(f"avg_I0 範圍: {min(avg_i0_values)} dB 到 {max(avg_i0_values)} dB")
 print(f"prach_I0 範圍: {min(prach_i0_values):.1f} dB 到 {max(prach_i0_values):.1f} dB")
 
-# 統計分析
+# 檢查重複的frame.slot
+frame_count = {}
+for frame in frame_slots:
+    if frame in frame_count:
+        frame_count[frame] += 1
+    else:
+        frame_count[frame] = 1
+
+duplicated_frames = {k: v for k, v in frame_count.items() if v > 1}
+if duplicated_frames:
+    print(f"\n⚠️  發現重複的frame.slot: {len(duplicated_frames)} 個")
+    print("前10個重複例子:")
+    for i, (frame, count) in enumerate(list(duplicated_frames.items())[:10]):
+        print(f"  Frame {frame}: {count} 筆資料")
+else:
+    print(f"\n✅ 無重複的frame.slot")
+
+# 去除重複的frame.slot資料，保留每個frame的最後一筆資料
+if duplicated_frames:
+    print(f"正在去除重複資料...")
+    # 使用字典來保存每個frame的最後一筆資料
+    unique_data = {}
+    
+    for i, frame_slot in enumerate(frame_slots):
+        unique_data[frame_slot] = {
+            'avg_i0': avg_i0_values[i],
+            'prach_i0': prach_i0_values[i],
+            'measured_prb': measured_prbs[i]
+        }
+    
+    # 重新建立資料列表
+    frame_slots = sorted(unique_data.keys())
+    avg_i0_values = [unique_data[frame]['avg_i0'] for frame in frame_slots]
+    prach_i0_values = [unique_data[frame]['prach_i0'] for frame in frame_slots]
+    measured_prbs = [unique_data[frame]['measured_prb'] for frame in frame_slots]
+    
+    print(f"去重後資料點數: {len(frame_slots)} (原: {len(matches)})")
+    print(f"去除了 {len(matches) - len(frame_slots)} 個重複資料點")
+
+# 重新計算統計分析（使用去重後的資料）
 avg_i0_stats = {
     '平均值': statistics.mean(avg_i0_values),
     '中位數': statistics.median(avg_i0_values),
@@ -65,6 +104,7 @@ prach_i0_stats = {
     '變化範圍': max(prach_i0_values) - min(prach_i0_values)
 }
 
+
 print("\n=== avg_I0 統計分析 ===")
 for key, value in avg_i0_stats.items():
     print(f"{key}: {value:.2f} dB")
@@ -73,7 +113,7 @@ print("\n=== prach_I0 統計分析 ===")
 for key, value in prach_i0_stats.items():
     print(f"{key}: {value:.2f} dB")
 
-# 計算不同avg_I0值的分佈
+# 重新計算不同avg_I0值的分佈（使用去重後的資料）
 avg_i0_distribution = {}
 for value in avg_i0_values:
     if value in avg_i0_distribution:
@@ -90,20 +130,43 @@ for value in sorted(avg_i0_distribution.keys()):
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
 fig.suptitle('NR gNB I0 測量分析 - avg_I0 變化趨勢', fontsize=16, fontweight='bold')
 
-# 1. avg_I0 時間序列
-ax1.plot(frame_slots, avg_i0_values, 'b-', linewidth=1, alpha=0.7, label='avg_I0')
+# 1. avg_I0 時間序列 - 使用階梯圖更適合離散值
+ax1.step(frame_slots, avg_i0_values, 'b-', linewidth=1.5, alpha=0.8, label='avg_I0', where='post')
 ax1.set_xlabel('Frame.Slot')
 ax1.set_ylabel('avg_I0 (dB)')
 ax1.set_title('avg_I0 隨時間變化')
 ax1.grid(True, alpha=0.3)
+
+# 設定合理的Y軸範圍，聚焦主要資料範圍
+main_values = [v for v in avg_i0_values if v <= 40]  # 過濾極值
+if main_values:
+    y_min = min(main_values) - 1
+    y_max = max(main_values) + 2
+    ax1.set_ylim(y_min, y_max)
+
+# 添加主要水平參考線
+for value in [24, 27, 31]:
+    if value in avg_i0_distribution:
+        percentage = (avg_i0_distribution[value] / len(avg_i0_values)) * 100
+        ax1.axhline(y=value, color='gray', linestyle='--', alpha=0.5, linewidth=0.8)
+        ax1.text(0.02, (value-y_min)/(y_max-y_min), f'{value}dB ({percentage:.1f}%)', 
+                transform=ax1.transAxes, fontsize=9, color='gray')
+
 ax1.legend()
 
-# 2. prach_I0 時間序列
+# 2. prach_I0 時間序列 - 使用平滑線條
 ax2.plot(frame_slots, prach_i0_values, 'r-', linewidth=1, alpha=0.7, label='prach_I0')
 ax2.set_xlabel('Frame.Slot')
 ax2.set_ylabel('prach_I0 (dB)')
 ax2.set_title('prach_I0 隨時間變化')
 ax2.grid(True, alpha=0.3)
+
+# 添加平均值參考線
+mean_prach = statistics.mean(prach_i0_values)
+ax2.axhline(y=mean_prach, color='darkred', linestyle='--', alpha=0.7, linewidth=1)
+ax2.text(0.02, 0.95, f'平均值: {mean_prach:.1f} dB', transform=ax2.transAxes, 
+         bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.8), fontsize=9)
+
 ax2.legend()
 
 # 3. avg_I0 值分佈直方圖
@@ -121,12 +184,41 @@ for bar, count in zip(bars, counts):
     ax3.text(bar.get_x() + bar.get_width()/2., height + height*0.01,
              f'{count}', ha='center', va='bottom', fontsize=10)
 
-# 4. prach_I0 分佈直方圖
-ax4.hist(prach_i0_values, bins=30, alpha=0.7, color='red', edgecolor='black')
-ax4.set_xlabel('prach_I0 (dB)')
-ax4.set_ylabel('頻率')
-ax4.set_title('prach_I0 分佈直方圖')
-ax4.grid(True, alpha=0.3)
+# 4. avg_I0 極值事件分析
+extreme_threshold = 40  # 定義極值閾值
+extreme_indices = [i for i, v in enumerate(avg_i0_values) if v >= extreme_threshold]
+extreme_frames = [frame_slots[i] for i in extreme_indices]
+extreme_values = [avg_i0_values[i] for i in extreme_indices]
+
+if extreme_values:
+    # 顯示極值事件
+    ax4.scatter(extreme_frames, extreme_values, color='red', s=50, alpha=0.7, 
+                label=f'極值事件 (≥{extreme_threshold}dB)')
+    ax4.set_xlabel('Frame.Slot')
+    ax4.set_ylabel('avg_I0 (dB)')
+    ax4.set_title(f'avg_I0 極值事件 (共{len(extreme_values)}次)')
+    ax4.grid(True, alpha=0.3)
+    
+    # 設定Y軸範圍只顯示極值範圍
+    if extreme_values:
+        y_min_extreme = min(extreme_values) - 2
+        y_max_extreme = max(extreme_values) + 2
+        ax4.set_ylim(y_min_extreme, y_max_extreme)
+    
+    # 添加統計資訊
+    ax4.text(0.02, 0.95, f'極值次數: {len(extreme_values)}', transform=ax4.transAxes,
+             bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7), fontsize=9)
+    ax4.text(0.02, 0.85, f'極值範圍: {min(extreme_values)}-{max(extreme_values)} dB', 
+             transform=ax4.transAxes,
+             bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7), fontsize=9)
+    
+    ax4.legend()
+else:
+    ax4.text(0.5, 0.5, '無極值事件', transform=ax4.transAxes, 
+             ha='center', va='center', fontsize=14)
+    ax4.set_title('avg_I0 極值事件分析')
+    ax4.set_xlabel('Frame.Slot')
+    ax4.set_ylabel('avg_I0 (dB)')
 
 plt.tight_layout()
 plt.subplots_adjust(top=0.93)
@@ -242,7 +334,8 @@ print("\n" + "="*60)
 print("             NR gNB I0 測量分析報告")
 print("="*60)
 print(f"分析時間: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-print(f"總測量次數: {len(matches)}")
+print(f"原始測量記錄: {len(matches)}")
+print(f"去重後資料點: {len(frame_slots)}")
 print(f"測量時間範圍: Frame {min(frame_slots):.2f} 到 {max(frame_slots):.2f}")
 print(f"measured_PRBs: {measured_prbs[0]} (固定值)")
 

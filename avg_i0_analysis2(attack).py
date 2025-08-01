@@ -258,8 +258,8 @@ plt.tight_layout()
 plt.subplots_adjust(top=0.93)
 
 # 儲存圖表
-plt.savefig('/Users/yq/Documents/analysis/avg_i0_analysis2.png', dpi=300, bbox_inches='tight')
-print(f"\n圖表已儲存為: avg_i0_analysis2.png")
+plt.savefig('/Users/yq/Documents/analysis/avg_i0_analysis2(attack).png', dpi=300, bbox_inches='tight')
+print(f"\n圖表已儲存為: avg_i0_analysis2(attack).png")
 
 plt.show()
 
@@ -358,8 +358,8 @@ plt.tight_layout()
 plt.subplots_adjust(top=0.93)
 
 # 儲存第二個圖表
-plt.savefig('/Users/yq/Documents/analysis/avg_i0_detailed_analysis2.png', dpi=300, bbox_inches='tight')
-print(f"詳細分析圖表已儲存為: avg_i0_detailed_analysis.png")
+plt.savefig('/Users/yq/Documents/analysis/avg_i0_detailed_analysis2(attack).png', dpi=300, bbox_inches='tight')
+print(f"詳細分析圖表已儲存為: avg_i0_detailed_analysis2(attack).png")
 
 plt.show()
 

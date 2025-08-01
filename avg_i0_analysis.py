@@ -137,12 +137,10 @@ ax1.set_ylabel('avg_I0 (dB)')
 ax1.set_title('avg_I0 隨時間變化')
 ax1.grid(True, alpha=0.3)
 
-# 設定合理的Y軸範圍，聚焦主要資料範圍
-main_values = [v for v in avg_i0_values if v <= 40]  # 過濾極值
-if main_values:
-    y_min = min(main_values) - 1
-    y_max = max(main_values) + 2
-    ax1.set_ylim(y_min, y_max)
+# 設定Y軸範圍顯示所有數據，包括極值
+y_min = min(avg_i0_values) - 2
+y_max = max(avg_i0_values) + 5  # 增加更多空間以清楚顯示最高值
+ax1.set_ylim(y_min, y_max)
 
 # 添加主要水平參考線
 for value in [24, 27, 31]:
@@ -160,6 +158,11 @@ ax2.set_xlabel('Frame.Slot')
 ax2.set_ylabel('prach_I0 (dB)')
 ax2.set_title('prach_I0 隨時間變化')
 ax2.grid(True, alpha=0.3)
+
+# 設定prach_I0的Y軸範圍顯示完整數據
+y_min_prach = min(prach_i0_values) - 1
+y_max_prach = max(prach_i0_values) + 2
+ax2.set_ylim(y_min_prach, y_max_prach)
 
 # 添加平均值參考線
 mean_prach = statistics.mean(prach_i0_values)

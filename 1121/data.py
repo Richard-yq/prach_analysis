@@ -14,4 +14,15 @@ SFN/SFN/SLOT/SYMBOL,attempt time,preamble index,Tx power
 728|9|1|0,11,1,10 dbm
 740|9|1|0,12,3,18 dbm
 
+
+# MTKUE 1114 PrachCFID:146 B4 log power rammping 4 db
+SFN/SFN/SLOT/SYMBOL,attempt time,preamble index,Tx power
+553|9|0|0,1,2,-30 dbm
+569|9|0|0,2,0,-26 dbm
+585|9|0|0,3,0,-22 dbm
+601|9|0|0,4,2,-18 dbm
+617|9|0|0,5,3,-14 dbm
+633|9|0|0,6,3,-10 dbm
+
+
 """

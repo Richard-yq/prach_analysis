@@ -1,19 +1,34 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 數據定義
+# ============================================================
+# 數據定義區 - 新增測試結果請修改此區
+# ============================================================
+
+# [步驟 1] 新增距離：在此列表中加入新的距離值 (單位: cm)
 distances = [80, 150, 220, 350]
+
+# [步驟 2] 新增 PRACH Config：在此列表中加入新的 config index
 prach_configs = [157, 159, 146, 148, 145]
 
-# 結果矩陣 (1 = 成功, 0 = 失敗, NaN = 未測試)
-# 行: 距離 (80, 150, 220, 350)
-# 列: PRACH config index (157, 159, 146, 148, 145)
+# [步驟 3] 更新結果矩陣
+# - 每一行代表一個距離 (順序與 distances 列表對應)
+# - 每一列代表一個 PRACH config (順序與 prach_configs 列表對應)
+# - 值說明: 1 = 攻擊成功, 0 = 攻擊失敗, np.nan = 未測試
 results = np.array([
-    [1, 1, 1, 1, 1],  # 80cm: 157✅, 159✅, 146✅, 148✅, 145未測試
-    [1, 1, 1, 1, 1],       # 150cm: 全部✅
-    [1, 1, 1, 1, 1],       # 220cm: 全部✅
-    [0, 0, 0, 0, 0],       # 350cm: 全部❌
+    [1, 1, 1, 1, 1],       # 80cm
+    [1, 1, 1, 1, 1],       # 150cm
+    [1, 1, 1, 1, 1],       # 220cm
+    [0, 0, 0, 0, 0],       # 350cm (Non-LOS)
 ], dtype=float)
+
+# [步驟 4] 更新 Y 軸標籤 (如有新距離，需在此加入對應標籤)
+# 格式: 'XXX cm' 或 'XXX cm (備註)'
+distance_labels = ['80 cm', '150 cm', '220 cm', '350 cm (Non-LOS)']
+
+# ============================================================
+# 以下為繪圖程式碼，一般不需修改
+# ============================================================
 
 # 設置圖表
 fig, ax = plt.subplots(figsize=(10, 6))
@@ -30,7 +45,7 @@ im = ax.imshow(results, cmap=cmap, aspect='auto', vmin=0, vmax=1)
 ax.set_xticks(np.arange(len(prach_configs)))
 ax.set_yticks(np.arange(len(distances)))
 ax.set_xticklabels(prach_configs)
-ax.set_yticklabels(['80 cm', '150 cm', '220 cm', '350 cm (Non LOS)'])
+ax.set_yticklabels(distance_labels)  # 使用上方定義的標籤
 
 ax.set_xlabel('PRACH Configuration Index', fontsize=12)
 ax.set_ylabel('Distance', fontsize=12)
@@ -81,8 +96,10 @@ for i, d in enumerate(distances):
 
 bars = ax2.bar(range(len(distances)), success_rates, color=['#51cf66' if r > 50 else '#ff6b6b' for r in success_rates])
 
+# 條形圖 X 軸標籤 (將括號內容換行顯示)
+bar_labels = [label.replace(' (', '\n(') for label in distance_labels]
 ax2.set_xticks(range(len(distances)))
-ax2.set_xticklabels(['80 cm', '150 cm', '220 cm', '350 cm\n(Not LOS)'])
+ax2.set_xticklabels(bar_labels)
 ax2.set_xlabel('Distance', fontsize=12)
 ax2.set_ylabel('Success Rate (%)', fontsize=12)
 ax2.set_title('PRACH Attack Success Rate by Distance', fontsize=14)

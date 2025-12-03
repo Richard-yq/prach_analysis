@@ -139,6 +139,7 @@ liteon168
 ### access k9s
 ```
 ssh richard@192.168.8.53
+curl -sS https://webinstall.dev/k9s | bash
 k9s
 
 <!-- 
@@ -152,3 +153,41 @@ dog:command
 
 
 
+<!-- 
+
+```
+04:32:44 richard@newton openairinterface5g ±|msg1_fdm_enable ✗|→ history
+    1  2025-12-03 15:07:04 cd
+    2  2025-12-03 15:07:04 ls
+    3  2025-12-03 15:07:04 pwd
+    4  2025-12-03 15:07:04 qwe
+    5  2025-12-03 15:07:04 exit
+    6  2025-12-03 15:07:04 exit
+    7  2025-12-03 15:07:04 cd
+    8  2025-12-03 15:07:04 bash -c "$(wget https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh -O -)"
+    9  2025-12-03 15:07:04 ls
+   10  2025-12-03 15:07:04 bash
+   11  2025-12-03 15:07:29 git clone https://github.com/Richard-yq/openairinterface5g.git
+   12  2025-12-03 15:07:59 cd openairinterface5g/
+   13  2025-12-03 15:08:03 git log
+   14  2025-12-03 15:08:24 git clone https://github.com/motangpuar/ocloud-helm-templates.git
+   15  2025-12-03 15:09:29 podman build --target ran-base --tag ran-base:latest --file docker/Dockerfile.base.ubuntu22 .
+   16  2025-12-03 15:34:34 podmen build --target ran-build --tag ran-build:latest --file docker/Dockerfile.build.ubuntu .
+   17  2025-12-03 15:34:44 podmen build --target ran-build --tag ran-build:latest --file docker/Dockerfile.build.ubuntu22 .
+   18  2025-12-03 15:34:59 podman build --target ran-build --tag ran-build:latest --file docker/Dockerfile.build.ubuntu22 .
+   19  2025-12-03 15:47:16 podman build --tag ran-build-fhi72:latest --file docker/Dockerfile.build.fhi72.ubuntu22 .
+   20  2025-12-03 16:16:54 docker build --target oai-gnb-fhi72 --tag oai-gnb-fhi72:latest --file docker/Dockerfile.gNB.fhi72.ubuntu  .
+   21  2025-12-03 16:17:07 podman build --target oai-gnb-fhi72 --tag oai-gnb-fhi72:latest --file docker/Dockerfile.gNB.fhi72.ubuntu22  .
+   22  2025-12-03 16:17:18 podman build --target oai-gnb-fhi72 --tag oai-gnb-fhi72:latest --file docker/Dockerfile.gNB.fhi72.ubuntu  .
+   23  2025-12-03 16:17:52 podman build --target oai-gnb-fhi72 --tag localhost/ran-build-fhi72:latest --file docker/Dockerfile.gNB.fhi72.ubuntu22  .
+   24  2025-12-03 16:19:06 podman images ls
+   25  2025-12-03 16:21:14 vi docker/Dockerfile.gNB.fhi72.ubuntu22
+   26  2025-12-03 16:21:58 podman image ls
+   27  2025-12-03 16:22:38 podman tag localhost/ran-build-fhi72:latest ran-build-fhi72:latest
+   28  2025-12-03 16:22:45 podman build --target oai-gnb-fhi72 --tag ran-build-fhi72:latest --file docker/Dockerfile.gNB.fhi72.ubuntu22  .
+   29  2025-12-03 16:24:31 docker build --target oai-gnb-fhi72 --tag oai-gnb-fhi72:latest --file docker/Dockerfile.gNB.fhi72.ubuntu22  .
+   30  2025-12-03 16:24:44 docker build --tag oai-gnb-fhi72:latest --file docker/Dockerfile.gNB.fhi72.ubuntu22  .
+   31  2025-12-03 16:32:23 podman tag localhost/oai-gnb-fhi72:latest bmw.ece.ntust.edu.tw/richardyq/oai-gnb-fhi72-fdm-enable:latest  
+   32  2025-12-03 16:32:37 podman push bmw.ece.ntust.edu.tw/richardyq/oai-gnb-fhi72-fdm-enable:latest
+
+``` -->

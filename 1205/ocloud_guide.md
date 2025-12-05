@@ -7,7 +7,7 @@ ps: please modify original file even you change the file name
 cd ocloud-helm-templates/oai-gnb-fhi-72
 vim values.yaml
 ```
-![alt text](image.png)
+![alt text](modifyme.png)
 
 
 ```

@@ -139,9 +139,14 @@ if __name__ == "__main__":
 
         # legend: 手動建立
         import matplotlib.patches as mpatches
-        succ_patch = mpatches.Patch(color='green', label='success')
-        fail_patch = mpatches.Patch(color='red', label='failed at RAR')
-        plt.legend(handles=[succ_patch, fail_patch], loc='upper left')
+        import matplotlib.lines as mlines
+        succ_patch = mpatches.Patch(color='green', label='Success')
+        fail_patch = mpatches.Patch(color='red', label='Failed at RAR')
+        # 用空心圓表示 preamble index
+        circle_marker = mlines.Line2D([], [], marker='o', color='w', markerfacecolor='none', 
+                                       markeredgecolor='k', markersize=6, label='Numbers = preamble index')
+        plt.legend(handles=[succ_patch, fail_patch, circle_marker], loc='upper left')
+        
 
         # 小格子顯示總嘗試數
         total = len(entries)

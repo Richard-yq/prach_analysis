@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
         plt.xlabel('Attempt')
         plt.ylabel('Tx power (dBm)')
-        title = 'OAI fhi72 Attempt vs Tx power'
+        title = 'COTS UE RA Attempt vs Tx power'
         if prach_cfid:
             title += f' - PRACH Configuration Index: {prach_cfid}'
         plt.title(title)

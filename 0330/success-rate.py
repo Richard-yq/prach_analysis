@@ -27,31 +27,89 @@ print(f"✓ 讀取成功：{repeat_rounds} 次重複測試結果")
 fig = plt.figure(figsize=(12, 6))
 ax = fig.add_subplot(111)
 
-# 折線圖：重複 120 次測試的成功率波動
+# 折線圖：1~120 無攻擊，121~最後一輪 攻擊中
 round_idx = np.arange(1, repeat_rounds + 1)
-ax.plot(round_idx, repeat_success_rate, color='#1f77b4', linewidth=2.2, marker='o', markersize=3.0, label='Test Round Success Rate')
-ax.axhline(repeat_mean, color='#d62728', linestyle='--', linewidth=1.8, label=f'Average: {repeat_mean:.1f}%')
-ax.fill_between(round_idx, 89, repeat_success_rate, alpha=0.1, color='#1f77b4')
+no_attack_mask = round_idx <= 120
+attack_mask = round_idx > 120
 
-ax.set_title('RACH Success Rate Across 120 Repeated Test Rounds', fontsize=14, pad=15)
+ax.plot(
+	round_idx[no_attack_mask],
+	repeat_success_rate[no_attack_mask],
+	color='#1f77b4',
+	linewidth=2.0,
+	marker='o',
+	markersize=2.8,
+	label='No Attack (Round 1-120)'
+)
+ax.plot(
+	round_idx[attack_mask],
+	repeat_success_rate[attack_mask],
+	color='#d62728',
+	linewidth=2.0,
+	marker='o',
+	markersize=2.8,
+	label=f'Under Attack (Round 121-{repeat_rounds})'
+)
+
+no_attack_mean = repeat_success_rate[no_attack_mask].mean()
+attack_mean = repeat_success_rate[attack_mask].mean()
+
+ax.axhline(no_attack_mean, color='#1f77b4', linestyle='--', linewidth=1.6, alpha=0.7, label=f'No Attack Avg: {no_attack_mean:.2f}%')
+ax.axhline(attack_mean, color='#d62728', linestyle='--', linewidth=1.6, alpha=0.7, label=f'Attack Avg: {attack_mean:.2f}%')
+ax.axvline(120, color='#555555', linestyle=':', linewidth=1.8)
+ax.axvspan(1, 120, color='#1f77b4', alpha=0.06)
+ax.axvspan(120, repeat_rounds, color='#d62728', alpha=0.06)
+
+# 區間標示 (i) / (ii)
+ax.text(
+	60,
+	92,
+	'(i) No Attack',
+	color='#1f77b4',
+	fontsize=11,
+	ha='center',
+	va='center',
+	fontweight='bold',
+	bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.75, edgecolor='none'),
+)
+ax.text(
+	(120 + repeat_rounds) / 2,
+	8,
+	'(ii) Under Attack',
+	color='#d62728',
+	fontsize=11,
+	ha='center',
+	va='center',
+	fontweight='bold',
+	bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.75, edgecolor='none'),
+)
+
+ax.set_title(f'RACH Success Rate Across {repeat_rounds} Test Rounds (No Attack -> Under Attack)', fontsize=14, pad=15)
 ax.set_xlabel('Test Round', fontsize=12)
 ax.set_ylabel('RACH Success Rate (%)', fontsize=12)
-ax.set_ylim(87, 101)
+ax.set_xlim(1, repeat_rounds)
+ax.set_ylim(-1, 101)
 ax.grid(True, linestyle='--', alpha=0.35)
 ax.legend(loc='lower left', fontsize=11)
 
 # # 右上角統計資訊框
 # stats_text = (
-# 	f'Overall Test: 1000 attempts\n'
-# 	f'Success: 970 (97.0%) | Failure: 30 (3.0%)\n\n'
-# 	f'Repeatability across {repeat_rounds} runs:\n'
-# 	f'Mean RSR: {repeat_mean:.2f}%\n'
+# 	f'No Attack (1-120): avg={no_attack_mean:.2f}%\n'
+# 	f'Under Attack (121-{repeat_rounds}): avg={attack_mean:.3f}%\n\n'
+# 	f'Overall Mean: {repeat_mean:.2f}%\n'
 # 	f'Std Dev: {repeat_std:.2f}%\n'
-# 	f'Min: {repeat_success_rate.min():.1f}% | Max: {repeat_success_rate.max():.1f}%'
+# 	f'Min: {repeat_success_rate.min():.3f}% | Max: {repeat_success_rate.max():.1f}%'
 # )
-# ax.text(0.98, 0.97, stats_text, transform=ax.transAxes, fontsize=10, 
-# 	verticalalignment='top', horizontalalignment='right',
-# 	bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.3))
+# ax.text(
+# 	0.98,
+# 	0.97,
+# 	stats_text,
+# 	transform=ax.transAxes,
+# 	fontsize=10,
+# 	verticalalignment='top',
+# 	horizontalalignment='right',
+# 	bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.3),
+# )
 
 fig.tight_layout()
 

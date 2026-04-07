@@ -16,7 +16,7 @@ def draw_scenario(ax, Ta, j, title):
         # 畫 RO 分隔線
         ax.axvline(x=i, color='gray', linestyle='--', alpha=0.3)
         ax.axvline(x=i+1, color='gray', linestyle='--', alpha=0.3)
-        # 標示 RO 標籤
+        # 標示 RO 標籤ㄑ
         ax.text(i + 0.5, 3.2, f'RO #{i}', ha='center', va='center', 
                 bbox=dict(facecolor='#f0f0f0', edgecolor='black', boxstyle='round,pad=0.3'))
 

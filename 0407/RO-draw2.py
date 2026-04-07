@@ -45,9 +45,14 @@ for s in range(total_slots):
 
 # 標示 RO Interval
 if len(ro_positions) >= 2:
-    ax.annotate('', xy=(ro_positions[0]+0.5, y_slot+0.8), xytext=(ro_positions[1]+0.5, y_slot+0.8),
+    pos_start = ro_positions[0]
+    pos_end = ro_positions[1]
+    ax.annotate('', xy=(pos_start, y_slot+0.8), xytext=(pos_end, y_slot+0.8),
                 arrowprops=dict(arrowstyle='<->', color='blue', lw=1.5))
-    ax.text((ro_positions[0] + ro_positions[1])/2 + 0.5, y_slot+0.9, 'RO interval', ha='center', va='bottom', color='blue')
+    ax.text((pos_start + pos_end)/2, y_slot+0.9, 'RO interval', ha='center', va='bottom', color='blue')
+    # 垂直虛線對齊 slot 左邊緣
+    ax.plot([pos_start, pos_start], [y_slot+0.5, y_slot+0.8], ls='--', color='blue', lw=1)
+    ax.plot([pos_end, pos_end], [y_slot+0.5, y_slot+0.8], ls='--', color='blue', lw=1)
 
 # ==========================================
 # 2. 繪製 Attacker 排程 (嚴格對齊時間軸)
@@ -66,16 +71,19 @@ for idx in atk_ro_indices:
 if len(atk_ro_indices) >= 2:
     pos1 = ro_positions[atk_ro_indices[0]]
     pos2 = ro_positions[atk_ro_indices[1]]
-    ax.annotate('', xy=(pos1+0.5, y_atk+1.0), xytext=(pos2+0.5, y_atk+1.0),
+    ax.annotate('', xy=(pos1, y_atk+1.0), xytext=(pos2, y_atk+1.0),
                 arrowprops=dict(arrowstyle='<->', color='#d62728', lw=2))
-    ax.text((pos1+pos2)/2 + 0.5, y_atk+1.1, f'Attack Period ($T_a={Ta}$)', ha='center', va='bottom', color='#d62728', fontweight='bold')
+    ax.text((pos1+pos2)/2, y_atk+1.1, f'Attack Period ($T_a={Ta}$)', ha='center', va='bottom', color='#d62728', fontweight='bold')
+    # 垂直虛線對齊邊緣
+    ax.plot([pos1, pos1], [y_atk+0.8, y_atk+1.0], ls='--', color='#d62728', lw=1)
+    ax.plot([pos2, pos2], [y_atk+0.8, y_atk+1.0], ls='--', color='#d62728', lw=1)
 
 # ==========================================
 # 3. 繪製 UE 排程 (嚴格對齊時間軸)
 # ==========================================
 y_ue = 0.0
 ax.plot([-1, total_slots + 2], [y_ue, y_ue], color='black', lw=1)
-ax.text(-2, y_ue+0.4, 'Legitimate UE', ha='right', va='center', fontweight='bold', fontsize=12)
+ax.text(-2, y_ue+0.4, 'Commercial UE', ha='right', va='center', fontweight='bold', fontsize=12)
 
 # UE 從第 j 個 RO 開始發送
 for idx in range(j, len(ro_positions)):
@@ -87,9 +95,12 @@ for idx in range(j, len(ro_positions)):
 if j < len(ro_positions):
     pos0 = ro_positions[0]
     pos_j = ro_positions[j]
-    ax.annotate('', xy=(pos0+0.5, y_ue+1.0), xytext=(pos_j+0.5, y_ue+1.0),
+    ax.annotate('', xy=(pos0, y_ue+1.0), xytext=(pos_j, y_ue+1.0),
                 arrowprops=dict(arrowstyle='<->', color='#ff7f0e', lw=2))
-    ax.text((pos0+pos_j)/2 + 0.5, y_ue+1.1, f'Head Start ($j={j}$)', ha='center', va='bottom', color='#ff7f0e', fontweight='bold')
+    ax.text((pos0+pos_j)/2, y_ue+1.1, f'Head Start ($j={j}$)', ha='center', va='bottom', color='#ff7f0e', fontweight='bold')
+    # 垂直虛線對齊邊緣
+    ax.plot([pos0, pos0], [y_ue+0.8, y_ue+1.0], ls='--', color='#ff7f0e', lw=1)
+    ax.plot([pos_j, pos_j], [y_ue+0.8, y_ue+1.0], ls='--', color='#ff7f0e', lw=1)
 
 # ==========================================
 # 4. 圖表美化
@@ -98,7 +109,7 @@ ax.set_xlim(-20, total_slots + 4)
 ax.set_ylim(-1.0, 7.5)
 
 # 繪製絕對時間軸的箭頭
-ax.annotate('Absolute Time (Slots)', xy=(total_slots + 3, -0.5), xytext=(-18, -0.5),
+ax.annotate('Absolute Time (ms)', xy=(total_slots + 3, -0.5), xytext=(-18, -0.5),
             arrowprops=dict(arrowstyle='->', color='black', lw=2), va='center', fontweight='bold')
 
 # 隱藏預設座標軸

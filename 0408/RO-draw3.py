@@ -89,7 +89,7 @@ if -j in ro_logical_dict and (-j + Ta) in ro_logical_dict:
     pos2 = ro_logical_dict[-j + Ta]
     ax.annotate('', xy=(pos1, y_atk+1.0), xytext=(pos2, y_atk+1.0),
                 arrowprops=dict(arrowstyle='<->', color='#d62728', lw=2))
-    ax.text((pos1+pos2)/2, y_atk+1.1, r'$\Delta t_{\mathrm{Attack}}$', ha='center', va='bottom', color='#d62728', fontweight='bold')
+    ax.text((pos1+pos2)/2, y_atk+1.1, r'$T_{\mathrm{a}}$', ha='center', va='bottom', color='#d62728', fontweight='bold')
     ax.plot([pos1, pos1], [y_atk+0.8, y_atk+1.0], ls='--', color='#d62728', lw=1)
     ax.plot([pos2, pos2], [y_atk+0.8, y_atk+1.0], ls='--', color='#d62728', lw=1)
 
@@ -114,7 +114,7 @@ if -j in ro_logical_dict and 0 in ro_logical_dict:
     pos_j = ro_logical_dict[0]
     ax.annotate('', xy=(pos0, y_ue+1.0), xytext=(pos_j, y_ue+1.0),
                 arrowprops=dict(arrowstyle='<->', color='#ff7f0e', lw=2))
-    ax.text((pos0+pos_j)/2, y_ue+1.1, r'$\Delta t_{\mathrm{UE}}$', ha='center', va='bottom', color='#ff7f0e', fontweight='bold')
+    ax.text((pos0+pos_j)/2, y_ue+1.1, r'$j$', ha='center', va='bottom', color='#ff7f0e', fontweight='bold')
     ax.plot([pos0, pos0], [y_ue+0.8, y_ue+1.0], ls='--', color='#ff7f0e', lw=1)
     ax.plot([pos_j, pos_j], [y_ue+0.8, y_ue+1.0], ls='--', color='#ff7f0e', lw=1)
 

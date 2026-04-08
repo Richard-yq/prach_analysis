@@ -87,7 +87,8 @@ y_atk = 1.5
 ax.plot([-1, max_visual + gap_width], [y_atk, y_atk], color='black', lw=1, zorder=1)
 ax.text(-2, y_atk+0.4, 'Attacker', ha='right', va='center', fontweight='bold', fontsize=12)
 
-atk_indices = [0, Ta]
+# 攻擊者在 i (0) 首次出現後，每隔 Ta 送出一次
+atk_indices = [i for i in ro_logical_dict.keys() if i >= 0 and i % Ta == 0]
 for i in atk_indices:
     if i in ro_logical_dict:
         vis_s = ro_logical_dict[i]
@@ -111,7 +112,8 @@ y_ue = 0.0
 ax.plot([-1, max_visual + gap_width], [y_ue, y_ue], color='black', lw=1, zorder=1)
 ax.text(-2, y_ue+0.4, 'Commercial UE', ha='right', va='center', fontweight='bold', fontsize=12)
 
-ue_indices = [j]
+# UE 在 i+j (j) 出現後，後續的每個 RO 也都會有送出 MSG1 (模擬重傳或連續行為)
+ue_indices = [i for i in ro_logical_dict.keys() if i >= j]
 for i in ue_indices:
     if i in ro_logical_dict:
         vis_s = ro_logical_dict[i]

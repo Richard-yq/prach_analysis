@@ -139,9 +139,10 @@ ax.set_ylim(-2.0, 10.5)
 # 加入各個變數的定義說明
 def_text = (
     r"$\mathbf{Definitions:}$" + "\n"
-    r"$\Delta t_{\mathrm{RO}}$ : RO Interval" + "\n"
-    r"$\Delta t_{\mathrm{Attack}}$ : Attack Interval ($T_a$ ROs)" + "\n"
-    r"$\Delta t_{\mathrm{UE}}$ : Commercial UE Arrival Delay ($j$ ROs)"
+    r"$\Delta t_{\mathrm{RO}}$ : RO Interval ($N$ Frames)" + "\n"
+    r"    where $N \in \{1, 2, 4, 8, 16\}$, determined by PRACH Configuration Index" + "\n"
+    r"$\Delta t_{\mathrm{Attack}}$ : Attack Interval" + "\n"
+    r"$\Delta t_{\mathrm{UE}}$ : Commercial UE Arrival Delay"
 )
 props = dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.9, edgecolor='gray')
 ax.text(-18, 10.0, def_text, fontsize=14, linespacing=1.8, va='top', ha='left', bbox=props, zorder=5)
@@ -168,7 +169,7 @@ for cx in gap_centers:
 
 # Time axis (箭頭延伸跨過最後一個 ...)
 final_cx = gap_centers[-1]
-ax.annotate('Timeline', xy=(final_cx + 3, y_time), xytext=(-18, y_time),
+ax.annotate('Time', xy=(final_cx + 3, y_time), xytext=(-18, y_time),
             arrowprops=dict(arrowstyle='->', color='black', lw=2), va='center', fontweight='bold', zorder=1)
 
 ax.axis('off')

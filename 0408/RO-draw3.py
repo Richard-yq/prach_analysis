@@ -103,7 +103,7 @@ if -j in ro_logical_dict and (-j + Ta) in ro_logical_dict:
     arr_y = y_atk + ro_height + 0.4
     ax.annotate('', xy=(pos1, arr_y), xytext=(pos2, arr_y),
                 arrowprops=dict(arrowstyle='<|-|>', color='#D9534F', lw=1.8, mutation_scale=12))
-    ax.text((pos1+pos2)/2, arr_y + 0.1, r'$\Delta T_{\mathrm{Attack}}$', ha='center', va='bottom', color='#D9534F', fontweight='bold')
+    ax.text((pos1+pos2)/2, arr_y + 0.1, r'1 RO interval', ha='center', va='bottom', color='#D9534F', fontweight='bold')
     ax.plot([pos1, pos1], [y_atk + ro_height + 0.1, arr_y], ls=':', color='#D9534F', lw=1.2)
     ax.plot([pos2, pos2], [y_atk + ro_height + 0.1, arr_y], ls=':', color='#D9534F', lw=1.2)
 
@@ -112,7 +112,7 @@ if -j in ro_logical_dict and (-j + Ta) in ro_logical_dict:
 # ==========================================
 # 第二底線 (UE)
 ax.plot([-1, max_visual + gap_width], [y_ue, y_ue], color='#404040', lw=1.2, zorder=1)
-ax.text(-1.5, y_ue + ro_height/2, 'Commercial\nUE', ha='right', va='center', fontweight='bold', fontsize=12, color='#388E3C')
+ax.text(-1.5, y_ue + ro_height/2, 'Commercial UE', ha='right', va='center', fontweight='bold', fontsize=12, color='#388E3C')
 
 ue_indices = [i for i in ro_logical_dict.keys() if i >= 0]
 for i in ue_indices:
@@ -132,7 +132,7 @@ if -j in ro_logical_dict and 0 in ro_logical_dict:
     arr_y = y_ue + ro_height + 0.4
     ax.annotate('', xy=(pos0, arr_y), xytext=(pos_j, arr_y),
                 arrowprops=dict(arrowstyle='<|-|>', color='#F57C00', lw=1.8, mutation_scale=12))
-    ax.text((pos0+pos_j)/2, arr_y + 0.1, r'$\Delta t_{\mathrm{UE}}$', ha='center', va='bottom', color='#F57C00', fontweight='bold')
+    ax.text((pos0+pos_j)/2, arr_y + 0.1, r'3 RO intervals', ha='center', va='bottom', color='#F57C00', fontweight='bold')
     ax.plot([pos0, pos0], [y_ue + ro_height + 0.1, arr_y], ls=':', color='#F57C00', lw=1.2)
     ax.plot([pos_j, pos_j], [y_ue + ro_height + 0.1, arr_y], ls=':', color='#F57C00', lw=1.2)
 

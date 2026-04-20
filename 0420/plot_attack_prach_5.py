@@ -59,11 +59,13 @@ def correlate(rx, u, N):
 # Build signals
 # ─────────────────────────────────────────────────────────────────────────────
 preambles = [make_preamble(ROOT_U, N_ZC, cs, CS_STEP) for cs in CS_IDX]
-s_attack  = sum(preambles)
+# Apply RMS normalization (1 / sqrt(M)) to prevent hardware clipping
+s_attack  = sum(preambles) / np.sqrt(M)
 noise     = (np.random.randn(N_ZC) + 1j * np.random.randn(N_ZC)) * NOISE_STD
 rx        = s_attack + noise
 
 corr_full = correlate(rx, ROOT_U, N_ZC)
+# reference is the peak power of a SINGLE, UNSCALED preamble
 ref_single = correlate(preambles[0], ROOT_U, N_ZC).max()
 
 def to_db(x):
@@ -143,17 +145,18 @@ style(axB,
       "Sample index $k$", "Amplitude")
 
 axB.plot(x_full, s_attack.real, color=C_ATK, linewidth=0.75, alpha=0.85,
-         label=rf"$s_{{\mathrm{{atk}}}}[k] = \sum_{{m=1}}^{{{M}}} x_{{u,\,\mathrm{{CS}}_m}}[k]$")
+         label=rf"$s_{{\mathrm{{atk}}}}[k] = \frac{{1}}{{\sqrt{{{M}}}}} \sum_{{m=1}}^{{{M}}} x_{{u,\,\mathrm{{CS}}_m}}[k]$")
 axB.axhline(0, color=C_MUTED, linewidth=0.5, linestyle=":")
 axB.set_xlim(0, N_ZC - 1)
 
-# Ensure y-axis scales properly for 5 superimposed signals (could reach +- 5)
-axB.set_ylim(-M-1, M+1)
+# Amp should be bounded near [-2, 2] after RMS scaling for M=5
+axB.set_ylim(-3, 3)
 
 axB.legend(loc="upper right", framealpha=0.92, edgecolor=C_GRID, fontsize=8.5)
 axB.text(0.02, 0.03,
-         "Looks like noise — indistinguishable from normal PRACH at signal level",
-         transform=axB.transAxes, color=C_MUTED, fontsize=8)
+         r"RMS scaled ($1/\sqrt{M}$) to prevent PA clipping $\rightarrow$ Peak power drops by $\sim$7 dB",
+         transform=axB.transAxes, color="#C62828", fontsize=8, fontweight="bold",
+         bbox=dict(pad=1, fc=C_PANEL, ec="none", alpha=0.7))
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Panel ③ – Full DFT correlation output (all M peaks visible)
@@ -256,7 +259,7 @@ fig.text(
     0.5, 0.003,
     f"5G NR PRACH  |  ZC root $u = {ROOT_U}$  |  $N_{{ZC}} = {N_ZC}$  |  "
     f"$M = {M}$ preambles superimposed  |  CS indices: {CS_IDX}  |  "
-    f"Threshold = {THR_DB} dB  |  Amplitude scaling ignored (illustration)",
+    f"Threshold = {THR_DB} dB  |  RMS scaling ($1/\\sqrt{{M}}$) applied to attack signal",
     ha="center", fontsize=8, color=C_MUTED, style="italic"
 )
 

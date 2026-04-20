@@ -37,7 +37,52 @@ I/Q 非恆定包絡只是攻擊訊號的「外觀」特徵，對 gNB 的 DFT 相
 
 ![alt text](image.png)
 
+為什麼一定要縮放？(Hardware Constraints)
+在我們的模擬中，單一 ZC Preamble 的振幅（Amplitude）是 1。 如果你把 5 個 Preamble 直接疊加起來，某些取樣點的振幅會疊加到 5（如圖 ② 的 Y 軸所示）。
 
+如果不縮放：當你把這個訊號送進 SDR（例如 USRP）的 DAC（數位類比轉換器）和 PA（功率放大器）時，硬體能夠接受的輸入範圍通常是 [-1.0, 1.0]。振幅超過 1 的部分會被硬體強制「削頂（Clipping）」。
+Clipping 的災難：削頂是一種嚴重的「非線性失真」。這會破壞 ZC 序列的完美正交性，產生大量的雜訊（Intermodulation distortion），結果就是 gNB 端的 noise floor 會整個暴增，最後 5 個 Peak 都會被自己的雜訊淹沒而偵測不到。
+
+
+實務上該怎麼縮放？
+為了避免 Clipping，通常有兩種常見的縮放方式：
+
+Peak Normalization (除以 $M$)：把疊加後的訊號除以 $M$ (這裡是 5)。這樣可以「保證」最大振幅絕對不會超過 1。這是最安全的做法。
+RMS Normalization (除以 $\sqrt{M}$)：因為 5 個 preamble 的相位是亂數疊加的，它看起來像高斯雜訊（OFDM 的 PAPR 特性），所以除以 $\sqrt{5}$ 就可以讓「總平均發射功率」保持不變（與單一 preamble 時相同）。
+3. 對 gNB Detection 的影響是什麼？(Power Penalty)
+這就是攻擊者的代價（Trade-off）。gNB 的相關接收器（Correlator）是一個高度**線性（Linear）**的系統：
+
+如果你發送訊號時，把整個訊號乘上一個係數 $c$ （例如 $c = 1/\sqrt{5}$）。
+到了 gNB 端，算出來的每個 Peak 功率，就會下降 $c^2$ 的倍數。
+
+
+對 gNB Detection 的影響是什麼？(Power Penalty)
+這就是攻擊者的代價（Trade-off）。gNB 的相關接收器（Correlator）是一個高度**線性（Linear）**的系統：
+
+如果你發送訊號時，把整個訊號乘上一個係數 $c$ （例如 $c = 1/\sqrt{5}$）。
+到了 gNB 端，算出來的每個 Peak 功率，就會下降 $c^2$ 的倍數。
+具體影響：
+
+假設你本來打 1 個 Preamble，gNB 收到的 Peak Power 是 $0$ dB。
+現在你疊加了 5 個，為了硬體不爆掉，你把總訊號除以 $\sqrt{5}$。
+那麼到了 gNB，這 5 個 Peak 雖然都能被完美分開，但每一個 Peak 的 Power 都會下降約 7 dB ($10 \log_{10}(1/5) \approx -7$ dB)。
+如果除以 5 (Peak normalization)，每個 Peak 甚至會下降 14 dB。
+
+
+### 📡 RMS Scaling: Preamble 疊加數量與接收衰減速查表
+
+| 疊加數量 ($M$) | 縮放係數 ($1/\sqrt{M}$) | 每個 Peak 掉餘的 dB 數 ($\Delta P$) | 實務攻擊含意 (假設 gNB Threshold = -13 dB) |
+| :---: | :---: | :---: | :--- |
+| **1** | $1.00$ | **$0.0$ dB** | 正常連線，全功率發射 |
+| **2** | $0.71$ | **$-3.0$ dB** | 損失了一半的能量（-3 dB），依然極易被偵測 |
+| **3** | $0.58$ | **$-4.8$ dB** | 攻擊 3 個 slot，訊號仍非常健康 |
+| **4** | $0.50$ | **$-6.0$ dB** | 四分之一功率。如果 SNR 佳，仍遠高於閾值 |
+| **5** | $0.45$ | **$-7.0$ dB** | 五連波攻擊，Peak 高度來到約 -7 dB |
+| **6** | $0.41$ | **$-7.8$ dB** | |
+| **8** | $0.35$ | **$-9.0$ dB** | |
+| **10** | $0.32$ | **$-10.0$ dB** | 十連波！功率衰減 10 dB，開始逼近 Threshold |
+| **16** | $0.25$ | **$-12.0$ dB** | 接近極限！若距離稍遠，可能會掉下 -13 dB 的閾值 |
+| **34** | $0.17$ | **$-15.3$ dB** | **塞滿整個 PRACH！** 但預計完全低於 -13 dB Threshold，攻擊會**全部失效** (gNB 把一切當作雜訊) |
 
 The proposed attacker modifies the signal generation process to aggregate $M$ distinct preambles. The combined frequency-domain signal $Y_{attack}[k]$ constructed by the attacker is given by:
 \begin{equation}

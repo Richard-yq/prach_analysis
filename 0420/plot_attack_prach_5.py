@@ -1,9 +1,9 @@
 """
-Multi-Preamble Attack Detection Visualization
+Multi-Preamble Attack Detection Visualization (5 Preambles)
 ===============================================
 Attack concept: attacker superimposes M distinct ZC preambles into ONE signal.
 
-  s_attack[k] = x_{u, CS0}[k] + x_{u, CS1}[k] + x_{u, CS2}[k]
+  s_attack[k] = sum(x_{u, CSm}[k])
   (amplitude scaling ignored for clarity)
 
 When the gNB runs its correlator, it sees M independent peaks —
@@ -24,12 +24,12 @@ NUM_CS  = 34
 CS_STEP = N_ZC // NUM_CS   # = 4 samples
 
 ROOT_U  = 138
-M       = 3
-CS_IDX  = [5, 14, 28]          # 3 preambles: well-separated, all < NUM_CS=34
+M       = 5
+CS_IDX  = [2, 9, 16, 23, 30]          # 5 preambles evenly separated
 THR_DB  = -13.0
 NOISE_STD = 0.015
 
-COLORS = ["#C62828", "#1565C0", "#2E7D32"]   # red, blue, green (one per preamble)
+COLORS = ["#C62828", "#1565C0", "#2E7D32", "#F57C00", "#00838F"] # 5 distinct colors
 C_ATK  = "#7B1FA2"    # purple – attack (combined) signal
 C_THR  = "#E65100"
 C_NOISE= "#E0E0E0"
@@ -124,14 +124,15 @@ style(axA,
 
 for m in range(M):
     axA.plot(x_full, preambles[m].real,
-             color=COLORS[m], linewidth=0.9, alpha=0.85,
-             label=f"Preamble {m+1}  (CS idx = {CS_IDX[m]})")
+             color=COLORS[m], linewidth=0.9, alpha=0.7,
+             label=f"Preamble {m+1}  (CS {CS_IDX[m]})")
 
 axA.set_xlim(0, N_ZC - 1)
-axA.legend(loc="lower right", framealpha=0.92, edgecolor=C_GRID, fontsize=8.5)
+axA.legend(loc="lower right", framealpha=0.92, edgecolor=C_GRID, fontsize=7.5, ncol=2)
 axA.text(0.02, 0.03,
          f"Each component: unit-amplitude ZC, different cyclic shift",
-         transform=axA.transAxes, color=C_MUTED, fontsize=8)
+         transform=axA.transAxes, color=C_MUTED, fontsize=8,
+         bbox=dict(pad=1, fc=C_PANEL, ec="none", alpha=0.7))
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Panel ② – Attack signal (superposition, real part)
@@ -145,6 +146,10 @@ axB.plot(x_full, s_attack.real, color=C_ATK, linewidth=0.75, alpha=0.85,
          label=rf"$s_{{\mathrm{{atk}}}}[k] = \sum_{{m=1}}^{{{M}}} x_{{u,\,\mathrm{{CS}}_m}}[k]$")
 axB.axhline(0, color=C_MUTED, linewidth=0.5, linestyle=":")
 axB.set_xlim(0, N_ZC - 1)
+
+# Ensure y-axis scales properly for 5 superimposed signals (could reach +- 5)
+axB.set_ylim(-M-1, M+1)
+
 axB.legend(loc="upper right", framealpha=0.92, edgecolor=C_GRID, fontsize=8.5)
 axB.text(0.02, 0.03,
          "Looks like noise — indistinguishable from normal PRACH at signal level",
@@ -166,12 +171,15 @@ axC.plot(x_full, corr_db, color=C_ATK, linewidth=1.0, alpha=0.88,
 axC.axhline(THR_DB, color=C_THR, linewidth=1.5, linestyle="--",
             label=f"Detection threshold  ({THR_DB:.0f} dB)", zorder=3)
 
-# Fixed annotation positions (hand-tuned)
+# Coordinates for 5 annotations so they don't overlap
 annot_cfg = [
-    dict(txt_x=3,   txt_y=3.5, ha="left"),   # Peak 1: beside its own peak
-    dict(txt_x=30,  txt_y=6.5, ha="left"),   # Peak 2: right side, high
-    dict(txt_x=75,  txt_y=4.5, ha="left"),   # Peak 3: between peak2 and peak3
+    dict(txt_x=-2,  txt_y=5.0, ha="left"),   # P1
+    dict(txt_x=24,  txt_y=1.5, ha="left"),   # P2
+    dict(txt_x=52,  txt_y=5.0, ha="left"),   # P3
+    dict(txt_x=80,  txt_y=1.5, ha="left"),   # P4
+    dict(txt_x=108, txt_y=5.0, ha="left"),   # P5
 ]
+
 for m in range(M):
     n_peak = peak_samples[m]
     db_val = corr_db[n_peak]
@@ -181,15 +189,15 @@ for m in range(M):
     axC.axvline(n_peak, color=COLORS[m], linewidth=0.8,
                 linestyle=":", alpha=0.6, zorder=2)
     axC.annotate(
-        f"Peak {m+1}  (CS {CS_IDX[m]})\n$n = {n_peak}$",
+        f"Peak {m+1} (CS {CS_IDX[m]})\n$n = {n_peak}$",
         xy=(n_peak, db_val),
         xytext=(cfg["txt_x"], cfg["txt_y"]),
-        color=COLORS[m], fontsize=8.5, fontweight="bold", ha=cfg["ha"],
+        color=COLORS[m], fontsize=8.0, fontweight="bold", ha=cfg["ha"],
         arrowprops=dict(arrowstyle="->", color=COLORS[m], lw=0.85),
-        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=COLORS[m], alpha=0.95)
+        bbox=dict(boxstyle="round,pad=0.25", fc="white", ec=COLORS[m], alpha=0.95)
     )
 
-axC.text(N_ZC * 0.6, THR_DB - 7,
+axC.text(N_ZC * 0.7, THR_DB - 7,
          "Noise floor  (side-lobes, interference)",
          color=C_MUTED, fontsize=8.5, ha="center")
 axC.set_xlim(0, N_ZC - 1)
@@ -198,9 +206,6 @@ axC.legend(loc="lower right", framealpha=0.95, edgecolor=C_GRID, ncol=3)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Panel ④ – Per-CS-slot bar chart: detected vs undetected
-#   Gray stubs at noise floor for all 34 slots
-#   Colored bars at actual power for the 3 detected ones
-#   Labels placed directly above each detected bar
 # ─────────────────────────────────────────────────────────────────────────────
 axD = fig.add_subplot(gs[2, :])
 style(axD,
@@ -210,28 +215,20 @@ style(axD,
 
 FLOOR = -28   # visual noise floor for undetected bars
 
-# Gray stubs for all undetected slots
 for v in cs_arr:
     if v not in CS_IDX:
         axD.bar(v, FLOOR - (-32), width=0.65, bottom=-32,
                 color="#EEEEEE", edgecolor="#CCCCCC",
                 linewidth=0.5, zorder=2)
 
-# Green background above threshold
-axD.fill_between([-1, NUM_CS], THR_DB, 6,
-                 color="#E8F5E9", alpha=0.4, zorder=1)
-# Threshold line
+axD.fill_between([-1, NUM_CS], THR_DB, 6, color="#E8F5E9", alpha=0.4, zorder=1)
 axD.axhline(THR_DB, color=C_THR, linewidth=1.8, linestyle="--", zorder=3,
             label=f"Detection threshold  ({THR_DB:.0f} dB)")
-# Threshold text on the right side, below the line
 axD.text(NUM_CS - 0.3, THR_DB - 3.5,
          f"Threshold\n{THR_DB:.0f} dB",
          color=C_THR, fontsize=8.5, fontweight="bold",
          ha="right", va="top")
 
-# Colored bars for the 3 detected preambles
-# stagger: #5 low offset (bar at index 5, far left), #14 high, #28 high
-y_label_top_offsets = [1.0, 1.0, 1.0]   # uniform: label just above bar top
 for m, cs in enumerate(CS_IDX):
     pw = cs_power_db[cs]
     axD.bar(cs, pw - (-32), width=1.0, bottom=-32,
@@ -239,19 +236,18 @@ for m, cs in enumerate(CS_IDX):
             linewidth=1.2, zorder=4,
             label=f"Preamble #{cs}  (CS {cs})  ✓ detected")
 
-
-# Resource exhaustion consequence label — upper centre (above empty area)
-# axD.text(0.5, 0.92,
-#          f"→  gNB allocates {M} RA responses  ⚠ Resource Exhaustion Attack",
-#          transform=axD.transAxes, color="#C62828",
-#          fontsize=9, fontweight="bold", ha="center", va="top",
-#          bbox=dict(boxstyle="round,pad=0.3", fc="#FFF3E0", ec="#C62828", alpha=0.97))
+# Re-enable the warning box, centrally located above
+axD.text(0.5, 0.92,
+         f"→  gNB allocates {M} RA responses  ⚠ Resource Exhaustion Attack",
+         transform=axD.transAxes, color="#C62828",
+         fontsize=9, fontweight="bold", ha="center", va="top",
+         bbox=dict(boxstyle="round,pad=0.3", fc="#FFF3E0", ec="#C62828", alpha=0.97))
 
 axD.set_xlim(-1, NUM_CS)
 axD.set_ylim(-32, 9)
 axD.set_xticks(cs_arr)
 axD.set_xticklabels([str(v) if v % 2 == 0 else "" for v in cs_arr], fontsize=8)
-axD.legend(loc="lower right", framealpha=0.95, edgecolor=C_GRID, fontsize=8.5, ncol=2)
+axD.legend(loc="lower center", framealpha=0.95, edgecolor=C_GRID, fontsize=8.0, ncol=3, bbox_to_anchor=(0.5, 0))
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Footer
@@ -264,7 +260,6 @@ fig.text(
     ha="center", fontsize=8, color=C_MUTED, style="italic"
 )
 
-out = "/Users/yq/Documents/analysis/0420/plot_attack_prach.png"
+out = "/Users/yq/Documents/analysis/0420/plot_attack_prach_5.png"
 plt.savefig(out, dpi=160, bbox_inches="tight", facecolor="white")
 print(f"[✓] Saved: {out}")
-plt.show()

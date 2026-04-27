@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Parse Msg3 scheduled RB allocations from detect-preambles.log,
-export to CSV, and plot resource grid + per-occasion RB usage.
+export to CSV, and plot resource grid + per-RO RB usage.
 """
 
 import re
@@ -58,80 +58,78 @@ def export_csv(records: list[dict], path: Path):
     print(f"Saved {len(records)} rows → {path}")
 
 
-def build_occasion_summary(records: list[dict]) -> list[dict]:
-    """Group by (tx_frame, tx_slot, tda) and compute total RBs used."""
+def build_ro_summary(records: list[dict]) -> list[dict]:
+    """Group by tx_frame (one RO per frame) and compute total RBs used."""
     grouped = defaultdict(list)
     for r in records:
-        key = (r["tx_frame"], r["tx_slot"], r["tda"])
-        grouped[key].append(r)
+        grouped[r["tx_frame"]].append(r)
 
     summary = []
-    for (frame, slot, tda), ues in sorted(grouped.items()):
+    for frame, ues in sorted(grouped.items()):
         total_rbs = sum(u["rb_count"] for u in ues)
-        min_start  = min(u["rb_start"] for u in ues)
-        max_end    = max(u["rb_end"] for u in ues)
         summary.append({
             "tx_frame":  frame,
-            "tx_slot":   slot,
-            "tda":       tda,
             "ue_count":  len(ues),
             "total_rbs": total_rbs,
-            "rb_min":    min_start,
-            "rb_max":    max_end,
-            "ues":       ues,
         })
     return summary
 
 
+# number of frame.slot occasions (columns in resource grid) per figure
 SLOTS_PER_FIGURE = 10
 
 
-def plot(records: list[dict], summary: list[dict]):
+def plot(records: list[dict]):
     # ── colour palette per UE ───────────────────────────────────────────────
     ue_ids   = sorted({r["ue_id"] for r in records})
     cmap     = plt.cm.get_cmap("tab20", len(ue_ids))
     ue_color = {uid: cmap(i) for i, uid in enumerate(ue_ids)}
 
-    slot_palette = ["#3a86ff", "#ff6b6b", "#06d6a0", "#ffd166", "#ef476f", "#118ab2"]
-    unique_slots = sorted({r["tx_slot"] for r in records})
-    slot_colors  = {sl: slot_palette[i % len(slot_palette)] for i, sl in enumerate(unique_slots)}
-    max_rb      = max(r["rb_end"] for r in records) + 2
-    all_totals  = [s["total_rbs"] for s in summary]
-    global_mean = np.mean(all_totals)
+    max_rb = max(r["rb_end"] for r in records) + 2
 
-    # ── unique tx occasions (sorted by time) ────────────────────────────────
+    # ── per-RO totals (for bar chart) ───────────────────────────────────────
+    ro_total: dict[int, int] = defaultdict(int)
+    for r in records:
+        ro_total[r["tx_frame"]] += r["rb_count"]
+    all_ro_totals = list(ro_total.values())
+    global_mean   = np.mean(all_ro_totals)
+
+    # ── unique tx occasions (frame.slot) for resource grid ──────────────────
     occasions = sorted({(r["tx_frame"], r["tx_slot"]) for r in records})
-
-    # build fast lookup: occasion → summary entry
-    summary_map = {(s["tx_frame"], s["tx_slot"]): s for s in summary}
-
-    # ── iterate over 50-occasion chunks ─────────────────────────────────────
     n_chunks = (len(occasions) + SLOTS_PER_FIGURE - 1) // SLOTS_PER_FIGURE
     for chunk_idx in range(n_chunks):
         chunk_occ   = occasions[chunk_idx * SLOTS_PER_FIGURE:(chunk_idx + 1) * SLOTS_PER_FIGURE]
         chunk_set   = set(chunk_occ)
-        occ_label   = [f"{f}.{s}" for f, s in chunk_occ]
         local_index = {o: i for i, o in enumerate(chunk_occ)}
+        c_labels    = [f"{f}.{s}" for f, s in chunk_occ]
 
         chunk_records = [r for r in records if (r["tx_frame"], r["tx_slot"]) in chunk_set]
-        chunk_summary = [summary_map[o] for o in chunk_occ if o in summary_map]
+
+        # ROs that appear in this chunk (unique tx_frames, in order of first appearance)
+        seen_frames: list[int] = []
+        for f, _ in chunk_occ:
+            if f not in seen_frames:
+                seen_frames.append(f)
+        ro_labels = [f"RO {chunk_idx * (SLOTS_PER_FIGURE // 2) + i + 1}\n({f})"
+                     for i, f in enumerate(seen_frames)]
 
         fig, axes = plt.subplots(
             2, 1,
-            figsize=(max(16, len(chunk_occ) * 0.35), 10),
+            figsize=(max(16, len(chunk_occ) * 0.8), 10),
             gridspec_kw={"height_ratios": [2, 1]},
         )
-        title_range = f"{occ_label[0]} – {occ_label[-1]}"
+        title_start = c_labels[0]
+        title_end   = c_labels[-1]
         fig.suptitle(
-            f"Msg3 RB Allocations  [{title_range}]  "
+            f"Msg3 RB Allocations  [{title_start} – {title_end}]  "
             f"(part {chunk_idx + 1}/{n_chunks})",
             fontsize=14, fontweight="bold",
         )
 
-        # ── TOP: Resource Grid ───────────────────────────────────────────────
+        # ── TOP: Resource Grid (frame.slot columns) ──────────────────────────
         ax1 = axes[0]
-        ax1.set_title("Resource Grid  (Y = RB index,  X = RA occasion frame.slot)")
-        ax1.set_xlabel("Msg3 scheduled (frame.slot)")
+        ax1.set_title("Resource Grid  (Y = RB index,  X = tx frame.slot)")
+        ax1.set_xlabel("tx frame.slot")
         ax1.set_ylabel("RB Index")
         ax1.set_xlim(-0.5, len(chunk_occ) - 0.5)
         ax1.set_ylim(-0.5, max_rb)
@@ -148,11 +146,10 @@ def plot(records: list[dict], summary: list[dict]):
             ax1.add_patch(rect)
             ax1.text(xi, r["rb_start"] + r["rb_count"] / 2,
                      r["ue_id"], ha="center", va="center",
-                     fontsize=5.5, color="white", fontweight="bold")
+                     fontsize=9, color="black", fontweight="bold")
 
-        step = max(1, len(chunk_occ) // 30)
-        ax1.set_xticks(range(0, len(chunk_occ), step))
-        ax1.set_xticklabels(occ_label[::step], rotation=60, ha="right", fontsize=7)
+        ax1.set_xticks(range(len(chunk_occ)))
+        ax1.set_xticklabels(c_labels, rotation=45, ha="right", fontsize=8)
         ax1.grid(axis="y", linestyle="--", linewidth=0.4, alpha=0.5)
         ax1.set_yticks(range(0, max_rb + 1, 4))
 
@@ -161,26 +158,24 @@ def plot(records: list[dict], summary: list[dict]):
         ax1.legend(handles=patches, loc="upper right", fontsize=7,
                    ncol=max(1, len(chunk_ue_ids) // 6), framealpha=0.7)
 
-        # ── BOTTOM: Total RBs bar chart ──────────────────────────────────────
+        # ── BOTTOM: Total RBs per RO (one bar per tx_frame) ─────────────────
         ax2 = axes[1]
-        ax2.set_title("Total RBs Used per RA Occasion")
-        ax2.set_xlabel("Msg3 scheduled (frame.slot)")
+        ax2.set_title("Total RBs Used per RO  (slot 10 + slot 17 combined)")
+        ax2.set_xlabel("RO")
         ax2.set_ylabel("Total RBs")
 
-        xs         = [local_index[(s["tx_frame"], s["tx_slot"])] for s in chunk_summary]
-        totals     = [s["total_rbs"] for s in chunk_summary]
-        bar_colors = [slot_colors.get(s["tx_slot"], "gray") for s in chunk_summary]
+        ro_xs     = list(range(len(seen_frames)))
+        ro_totals = [ro_total[f] for f in seen_frames]
 
-        ax2.bar(xs, totals, color=bar_colors, width=0.7, edgecolor="white", linewidth=0.4)
-        ax2.set_xlim(-0.5, len(chunk_occ) - 0.5)
-        ax2.set_ylim(0, max(all_totals) * 1.3)
-        ax2.set_xticks(range(0, len(chunk_occ), step))
-        ax2.set_xticklabels(occ_label[::step], rotation=60, ha="right", fontsize=7)
-        ax2.axhline(y=global_mean, color="black", linestyle="--",
-                    linewidth=1, label=f"Global mean = {global_mean:.1f} RBs")
+        ax2.bar(ro_xs, ro_totals, color="#3a86ff", width=0.6,
+                edgecolor="white", linewidth=0.4)
+        ax2.set_xlim(-0.5, len(seen_frames) - 0.5)
+        ax2.set_ylim(0, max(all_ro_totals) * 1.3)
+        ax2.set_xticks(ro_xs)
+        ax2.set_xticklabels(ro_labels, rotation=0, ha="center", fontsize=8)
+        ax2.axhline(y=global_mean, color="black", linestyle="--", linewidth=1)
         ax2.grid(axis="y", linestyle="--", linewidth=0.4, alpha=0.5)
-        slot_patches = [mpatches.Patch(color=c, label=f"slot {s}") for s, c in slot_colors.items()]
-        ax2.legend(handles=slot_patches + [
+        ax2.legend(handles=[
             mpatches.Patch(color="black", label=f"global mean {global_mean:.1f} RBs")
         ], fontsize=8, framealpha=0.7)
 
@@ -201,16 +196,15 @@ def main():
 
     export_csv(records, CSV_FILE)
 
-    summary = build_occasion_summary(records)
-    n_occasions = len(summary)
-    n_figures   = (n_occasions + SLOTS_PER_FIGURE - 1) // SLOTS_PER_FIGURE
-    print(f"Unique RA occasions: {n_occasions}  →  {n_figures} figures "
-          f"({SLOTS_PER_FIGURE} slots each)")
-    print(f"Total RBs per occasion — min:{min(s['total_rbs'] for s in summary)} "
+    summary = build_ro_summary(records)
+    n_ros     = len(summary)
+    n_figures = (n_ros * 2 + SLOTS_PER_FIGURE - 1) // SLOTS_PER_FIGURE
+    print(f"Unique ROs: {n_ros}  →  {n_figures} figures  ({SLOTS_PER_FIGURE} slots each)")
+    print(f"Total RBs per RO — min:{min(s['total_rbs'] for s in summary)} "
           f"max:{max(s['total_rbs'] for s in summary)} "
           f"mean:{sum(s['total_rbs'] for s in summary)/len(summary):.1f}")
 
-    plot(records, summary)
+    plot(records)
 
 
 if __name__ == "__main__":

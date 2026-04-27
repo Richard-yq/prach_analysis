@@ -1,0 +1,889 @@
+
+--== OCUDU gNB (commit 6a7afc6c1b) ==--
+
+Lower PHY in dual baseband executor mode.
+Available radio types: uhd.
+Making USRP object with args 'type=b200,num_recv_frames=64,num_send_frames=64'
+Cell pci=1, bw=20 MHz, 1T1R, dl_arfcn=641280 (n78), dl_freq=3619.2 MHz, dl_ssb_arfcn=640992, ul_freq=3619.2 MHz
+
+==== gNB started ===
+Type <h> to view help
+[PRACH DETECT] slot=785.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x4601 preamble_id=50 slot=786.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4602 preamble_id=51 slot=786.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4603 preamble_id=53 slot=786.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4604 preamble_id=54 slot=786.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=786.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.33dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x4605 preamble_id=50 slot=787.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4606 preamble_id=51 slot=787.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4607 preamble_id=53 slot=787.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4608 preamble_id=54 slot=787.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=787.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.36dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.31dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.35dBFS
+[MSG3 ALLOC] tc-rnti=0x4609 preamble_id=50 slot=788.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x460a preamble_id=51 slot=788.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x460b preamble_id=53 slot=788.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x460c preamble_id=54 slot=788.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=788.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.55dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.45dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.39dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.43dBFS
+[MSG3 ALLOC] tc-rnti=0x460d preamble_id=50 slot=789.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x460e preamble_id=51 slot=789.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x460f preamble_id=53 slot=789.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4610 preamble_id=54 slot=789.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=789.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.02 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.42dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.02 power=-8.46dBFS
+[MSG3 ALLOC] tc-rnti=0x4611 preamble_id=51 slot=790.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4612 preamble_id=53 slot=790.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4613 preamble_id=54 slot=790.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=790.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.07 power=-8.49dBFS
+[MSG3 ALLOC] tc-rnti=0x4614 preamble_id=53 slot=791.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=791.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.03 power=-8.58dBFS
+[MSG3 ALLOC] tc-rnti=0x4615 preamble_id=53 slot=792.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=792.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.47dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.37dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.32dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.34dBFS
+[MSG3 ALLOC] tc-rnti=0x4616 preamble_id=50 slot=793.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4617 preamble_id=51 slot=793.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4618 preamble_id=53 slot=793.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4619 preamble_id=54 slot=793.17 CRBs=[26,29) nof_rbs=3
+[PRACH DETECT] slot=793.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.46dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.36dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.31dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.35dBFS
+[MSG3 ALLOC] tc-rnti=0x461a preamble_id=50 slot=794.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x461b preamble_id=51 slot=794.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x461c preamble_id=53 slot=794.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x461d preamble_id=54 slot=794.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=794.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.52dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.39dBFS
+[MSG3 ALLOC] tc-rnti=0x461e preamble_id=50 slot=795.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x461f preamble_id=51 slot=795.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4620 preamble_id=53 slot=795.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4621 preamble_id=54 slot=795.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=795.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.03 power=-8.45dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.39dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.44dBFS
+[MSG3 ALLOC] tc-rnti=0x4622 preamble_id=51 slot=796.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4623 preamble_id=53 slot=796.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4624 preamble_id=54 slot=796.18 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=796.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.55dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.43dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x4625 preamble_id=50 slot=797.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4626 preamble_id=51 slot=797.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4627 preamble_id=53 slot=797.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4628 preamble_id=54 slot=797.17 CRBs=[26,29) nof_rbs=3
+[PRACH DETECT] slot=797.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.37dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x4629 preamble_id=50 slot=798.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x462a preamble_id=51 slot=798.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x462b preamble_id=53 slot=798.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x462c preamble_id=54 slot=798.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=798.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.47dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.37dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.33dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.34dBFS
+[MSG3 ALLOC] tc-rnti=0x462d preamble_id=50 slot=799.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x462e preamble_id=51 slot=799.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x462f preamble_id=53 slot=799.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4630 preamble_id=54 slot=799.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=799.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.33dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.35dBFS
+[MSG3 ALLOC] tc-rnti=0x4631 preamble_id=50 slot=800.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4632 preamble_id=51 slot=800.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4633 preamble_id=53 slot=800.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4634 preamble_id=54 slot=800.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=800.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.33dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x4635 preamble_id=50 slot=801.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4636 preamble_id=51 slot=801.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4637 preamble_id=53 slot=801.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4638 preamble_id=54 slot=801.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=802.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.02 power=-8.48dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.42dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.47dBFS
+[MSG3 ALLOC] tc-rnti=0x4639 preamble_id=51 slot=803.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x463a preamble_id=53 slot=803.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x463b preamble_id=54 slot=803.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=803.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.37dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x463c preamble_id=50 slot=804.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x463d preamble_id=51 slot=804.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x463e preamble_id=53 slot=804.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x463f preamble_id=54 slot=804.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=804.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.04 power=-8.61dBFS
+[MSG3 ALLOC] tc-rnti=0x4640 preamble_id=53 slot=805.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=806.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x4641 preamble_id=50 slot=807.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4642 preamble_id=51 slot=807.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4643 preamble_id=53 slot=807.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4644 preamble_id=54 slot=807.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=807.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x4645 preamble_id=50 slot=808.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4646 preamble_id=51 slot=808.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4647 preamble_id=53 slot=808.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4648 preamble_id=54 slot=808.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=808.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.42dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.46dBFS
+[MSG3 ALLOC] tc-rnti=0x4649 preamble_id=51 slot=809.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x464a preamble_id=53 slot=809.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x464b preamble_id=54 slot=809.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=809.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.01 power=-8.52dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.46dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.01 power=-8.51dBFS
+[MSG3 ALLOC] tc-rnti=0x464c preamble_id=51 slot=810.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x464d preamble_id=53 slot=810.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x464e preamble_id=54 slot=810.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=810.19 rssi=-1.5dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.05 power=-8.57dBFS
+[MSG3 ALLOC] tc-rnti=0x464f preamble_id=53 slot=811.17 CRBs=[11,14) nof_rbs=3
+[PRACH DETECT] slot=811.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x4650 preamble_id=50 slot=812.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4651 preamble_id=51 slot=812.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4652 preamble_id=53 slot=812.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4653 preamble_id=54 slot=812.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=812.19 rssi=-1.5dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.55dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.44dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.39dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x4654 preamble_id=50 slot=813.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4655 preamble_id=51 slot=813.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4656 preamble_id=53 slot=813.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4657 preamble_id=54 slot=813.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=813.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.52dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x4658 preamble_id=50 slot=814.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4659 preamble_id=51 slot=814.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x465a preamble_id=53 slot=814.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x465b preamble_id=54 slot=814.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=814.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.55dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.44dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.38dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.43dBFS
+[MSG3 ALLOC] tc-rnti=0x465c preamble_id=50 slot=815.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x465d preamble_id=51 slot=815.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x465e preamble_id=53 slot=815.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x465f preamble_id=54 slot=815.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=815.19 rssi=-1.5dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.02 power=-8.54dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.47dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.52dBFS
+[MSG3 ALLOC] tc-rnti=0x4660 preamble_id=51 slot=816.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4661 preamble_id=53 slot=816.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4662 preamble_id=54 slot=816.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=817.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.04 power=-8.60dBFS
+[MSG3 ALLOC] tc-rnti=0x4663 preamble_id=53 slot=818.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=818.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x4664 preamble_id=50 slot=819.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4665 preamble_id=51 slot=819.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4666 preamble_id=53 slot=819.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4667 preamble_id=54 slot=819.17 CRBs=[26,29) nof_rbs=3
+[PRACH DETECT] slot=819.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x4668 preamble_id=50 slot=820.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4669 preamble_id=51 slot=820.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x466a preamble_id=53 slot=820.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x466b preamble_id=54 slot=820.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=820.19 rssi=-1.5dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.55dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.44dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.39dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.43dBFS
+[MSG3 ALLOC] tc-rnti=0x466c preamble_id=50 slot=821.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x466d preamble_id=51 slot=821.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x466e preamble_id=53 slot=821.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x466f preamble_id=54 slot=821.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=821.19 rssi=-1.5dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.50dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.45dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.50dBFS
+[MSG3 ALLOC] tc-rnti=0x4670 preamble_id=51 slot=822.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4671 preamble_id=53 slot=822.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4672 preamble_id=54 slot=822.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=822.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.01 power=-8.54dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.48dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.01 power=-8.53dBFS
+[MSG3 ALLOC] tc-rnti=0x4673 preamble_id=51 slot=823.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4674 preamble_id=53 slot=823.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4675 preamble_id=54 slot=823.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=823.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.06 power=-8.53dBFS
+[MSG3 ALLOC] tc-rnti=0x4676 preamble_id=53 slot=824.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=824.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x4677 preamble_id=50 slot=825.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4678 preamble_id=51 slot=825.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4679 preamble_id=53 slot=825.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x467a preamble_id=54 slot=825.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=825.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x467b preamble_id=50 slot=826.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x467c preamble_id=51 slot=826.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x467d preamble_id=53 slot=826.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x467e preamble_id=54 slot=826.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=826.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x467f preamble_id=50 slot=827.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4680 preamble_id=51 slot=827.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4681 preamble_id=53 slot=827.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4682 preamble_id=54 slot=827.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=827.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.54dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.44dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.38dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x4683 preamble_id=50 slot=828.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4684 preamble_id=51 slot=828.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4685 preamble_id=53 slot=828.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4686 preamble_id=54 slot=828.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=828.19 rssi=-1.5dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.03 power=-8.52dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.46dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.51dBFS
+[MSG3 ALLOC] tc-rnti=0x4687 preamble_id=51 slot=829.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4688 preamble_id=53 slot=829.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4689 preamble_id=54 slot=829.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=829.19 rssi=-1.4dB detected 2 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.07 power=-8.50dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.00 power=-8.55dBFS
+[MSG3 ALLOC] tc-rnti=0x468a preamble_id=53 slot=830.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x468b preamble_id=54 slot=830.17 CRBs=[11,14) nof_rbs=3
+[PRACH DETECT] slot=830.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x468c preamble_id=50 slot=831.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x468d preamble_id=51 slot=831.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x468e preamble_id=53 slot=831.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x468f preamble_id=54 slot=831.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=833.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x4690 preamble_id=50 slot=834.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4691 preamble_id=51 slot=834.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4692 preamble_id=53 slot=834.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4693 preamble_id=54 slot=834.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=835.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.01 power=-8.50dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.44dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+[MSG3 ALLOC] tc-rnti=0x4694 preamble_id=51 slot=836.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4695 preamble_id=53 slot=836.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4696 preamble_id=54 slot=836.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=836.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.54dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.45dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.39dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x4697 preamble_id=50 slot=837.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4698 preamble_id=51 slot=837.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4699 preamble_id=53 slot=837.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x469a preamble_id=54 slot=837.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=837.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x469b preamble_id=50 slot=838.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x469c preamble_id=51 slot=838.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x469d preamble_id=53 slot=838.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x469e preamble_id=54 slot=838.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=839.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x469f preamble_id=50 slot=840.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46a0 preamble_id=51 slot=840.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46a1 preamble_id=53 slot=840.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46a2 preamble_id=54 slot=840.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=840.19 rssi=-1.4dB detected 2 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.05 power=-8.54dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.01 power=-8.52dBFS
+[MSG3 ALLOC] tc-rnti=0x46a3 preamble_id=53 slot=841.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46a4 preamble_id=54 slot=841.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=841.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.44dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.43dBFS
+[MSG3 ALLOC] tc-rnti=0x46a5 preamble_id=51 slot=842.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46a6 preamble_id=53 slot=842.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46a7 preamble_id=54 slot=842.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=842.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.00 power=-8.55dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.07 power=-8.48dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.01 power=-8.53dBFS
+[MSG3 ALLOC] tc-rnti=0x46a8 preamble_id=51 slot=843.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46a9 preamble_id=53 slot=843.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46aa preamble_id=54 slot=843.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=843.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.04 power=-8.56dBFS
+[MSG3 ALLOC] tc-rnti=0x46ab preamble_id=53 slot=844.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=844.19 rssi=-1.5dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.01 power=-8.72dBFS
+[MSG3 ALLOC] tc-rnti=0x46ac preamble_id=53 slot=845.17 CRBs=[11,14) nof_rbs=3
+[PRACH DETECT] slot=845.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x46ad preamble_id=50 slot=846.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46ae preamble_id=51 slot=846.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46af preamble_id=53 slot=846.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46b0 preamble_id=54 slot=846.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=846.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+[MSG3 ALLOC] tc-rnti=0x46b1 preamble_id=50 slot=847.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46b2 preamble_id=51 slot=847.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46b3 preamble_id=53 slot=847.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46b4 preamble_id=54 slot=847.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=847.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.00 power=-8.54dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.43dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.38dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.43dBFS
+[MSG3 ALLOC] tc-rnti=0x46b5 preamble_id=50 slot=848.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46b6 preamble_id=51 slot=848.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46b7 preamble_id=53 slot=848.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46b8 preamble_id=54 slot=848.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=848.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.00 power=-8.56dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.03 power=-8.49dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.43dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x46b9 preamble_id=50 slot=849.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46ba preamble_id=51 slot=849.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46bb preamble_id=53 slot=849.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46bc preamble_id=54 slot=849.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=849.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.52dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.43dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.39dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+[MSG3 ALLOC] tc-rnti=0x46bd preamble_id=50 slot=850.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46be preamble_id=51 slot=850.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46bf preamble_id=53 slot=850.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46c0 preamble_id=54 slot=850.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=850.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.03 power=-8.62dBFS
+[MSG3 ALLOC] tc-rnti=0x46c1 preamble_id=53 slot=851.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=852.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+[MSG3 ALLOC] tc-rnti=0x46c2 preamble_id=50 slot=853.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46c3 preamble_id=51 slot=853.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46c4 preamble_id=53 slot=853.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46c5 preamble_id=54 slot=853.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=853.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.54dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.43dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.38dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x46c6 preamble_id=50 slot=854.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46c7 preamble_id=51 slot=854.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46c8 preamble_id=53 slot=854.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46c9 preamble_id=54 slot=854.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=854.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.03 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.42dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.46dBFS
+[MSG3 ALLOC] tc-rnti=0x46ca preamble_id=51 slot=855.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46cb preamble_id=53 slot=855.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46cc preamble_id=54 slot=855.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=855.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.00 power=-8.55dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.48dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.01 power=-8.54dBFS
+[MSG3 ALLOC] tc-rnti=0x46cd preamble_id=51 slot=856.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46ce preamble_id=53 slot=856.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46cf preamble_id=54 slot=856.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=856.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.04 power=-8.56dBFS
+[MSG3 ALLOC] tc-rnti=0x46d0 preamble_id=53 slot=857.17 CRBs=[11,14) nof_rbs=3
+[PRACH DETECT] slot=857.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.01 power=-8.66dBFS
+[MSG3 ALLOC] tc-rnti=0x46d1 preamble_id=53 slot=858.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=858.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x46d2 preamble_id=50 slot=859.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46d3 preamble_id=51 slot=859.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46d4 preamble_id=53 slot=859.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46d5 preamble_id=54 slot=859.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=859.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x46d6 preamble_id=50 slot=860.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46d7 preamble_id=51 slot=860.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46d8 preamble_id=53 slot=860.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46d9 preamble_id=54 slot=860.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=860.19 rssi=-1.5dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.00 power=-8.59dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.42dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.46dBFS
+[MSG3 ALLOC] tc-rnti=0x46da preamble_id=50 slot=861.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46db preamble_id=51 slot=861.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46dc preamble_id=53 slot=861.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46dd preamble_id=54 slot=861.17 CRBs=[26,29) nof_rbs=3
+[PRACH DETECT] slot=861.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.02 power=-8.51dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.45dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+[MSG3 ALLOC] tc-rnti=0x46de preamble_id=51 slot=862.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46df preamble_id=53 slot=862.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46e0 preamble_id=54 slot=862.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=862.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.06 power=-8.51dBFS
+[MSG3 ALLOC] tc-rnti=0x46e1 preamble_id=53 slot=863.17 CRBs=[11,14) nof_rbs=3
+[PRACH DETECT] slot=863.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x46e2 preamble_id=50 slot=864.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46e3 preamble_id=51 slot=864.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46e4 preamble_id=53 slot=864.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46e5 preamble_id=54 slot=864.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=864.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x46e6 preamble_id=50 slot=865.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46e7 preamble_id=51 slot=865.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46e8 preamble_id=53 slot=865.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46e9 preamble_id=54 slot=865.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=866.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.53dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.37dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+[MSG3 ALLOC] tc-rnti=0x46ea preamble_id=50 slot=867.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46eb preamble_id=51 slot=867.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46ec preamble_id=53 slot=867.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46ed preamble_id=54 slot=867.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=867.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.01 power=-8.53dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.07 power=-8.48dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.45dBFS
+[MSG3 ALLOC] tc-rnti=0x46ee preamble_id=51 slot=868.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46ef preamble_id=53 slot=868.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46f0 preamble_id=54 slot=868.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=868.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.56dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.48dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.43dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x46f1 preamble_id=50 slot=869.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46f2 preamble_id=51 slot=869.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46f3 preamble_id=53 slot=869.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46f4 preamble_id=54 slot=869.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=869.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.05 power=-8.55dBFS
+[MSG3 ALLOC] tc-rnti=0x46f5 preamble_id=53 slot=870.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=870.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.35dBFS
+[MSG3 ALLOC] tc-rnti=0x46f6 preamble_id=50 slot=871.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46f7 preamble_id=51 slot=871.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46f8 preamble_id=53 slot=871.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46f9 preamble_id=54 slot=871.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=871.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x46fa preamble_id=50 slot=872.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46fb preamble_id=51 slot=872.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46fc preamble_id=53 slot=872.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46fd preamble_id=54 slot=872.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=873.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.00 power=-8.57dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.41dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.45dBFS
+[MSG3 ALLOC] tc-rnti=0x46fe preamble_id=50 slot=874.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x46ff preamble_id=51 slot=874.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4700 preamble_id=53 slot=874.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4701 preamble_id=54 slot=874.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=874.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.00 power=-8.55dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.03 power=-8.49dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.44dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x4702 preamble_id=50 slot=875.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4703 preamble_id=51 slot=875.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4704 preamble_id=53 slot=875.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4705 preamble_id=54 slot=875.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=875.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.43dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.38dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x4706 preamble_id=50 slot=876.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4707 preamble_id=51 slot=876.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4708 preamble_id=53 slot=876.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4709 preamble_id=54 slot=876.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=876.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.42dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.37dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+[MSG3 ALLOC] tc-rnti=0x470a preamble_id=50 slot=877.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x470b preamble_id=51 slot=877.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x470c preamble_id=53 slot=877.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x470d preamble_id=54 slot=877.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=877.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x470e preamble_id=50 slot=878.18 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x470f preamble_id=51 slot=878.18 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4710 preamble_id=53 slot=878.18 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4711 preamble_id=54 slot=878.18 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=878.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x4712 preamble_id=50 slot=879.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4713 preamble_id=51 slot=879.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4714 preamble_id=53 slot=879.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4715 preamble_id=54 slot=879.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=879.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.54dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.37dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+[MSG3 ALLOC] tc-rnti=0x4716 preamble_id=50 slot=880.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4717 preamble_id=51 slot=880.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4718 preamble_id=53 slot=880.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4719 preamble_id=54 slot=880.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=880.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.03 power=-8.46dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.40dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.45dBFS
+[MSG3 ALLOC] tc-rnti=0x471a preamble_id=51 slot=881.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x471b preamble_id=53 slot=881.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x471c preamble_id=54 slot=881.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=881.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.01 power=-8.54dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.48dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.01 power=-8.52dBFS
+[MSG3 ALLOC] tc-rnti=0x471d preamble_id=51 slot=882.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x471e preamble_id=53 slot=882.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x471f preamble_id=54 slot=882.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=882.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.05 power=-8.55dBFS
+[MSG3 ALLOC] tc-rnti=0x4720 preamble_id=53 slot=883.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=883.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.01 power=-8.64dBFS
+[MSG3 ALLOC] tc-rnti=0x4721 preamble_id=53 slot=884.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=885.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.52dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.42dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x4722 preamble_id=50 slot=886.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4723 preamble_id=51 slot=886.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4724 preamble_id=53 slot=886.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4725 preamble_id=54 slot=886.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=886.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.54dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.43dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.38dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.42dBFS
+[MSG3 ALLOC] tc-rnti=0x4726 preamble_id=50 slot=887.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4727 preamble_id=51 slot=887.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4728 preamble_id=53 slot=887.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4729 preamble_id=54 slot=887.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=887.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.02 power=-8.51dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.09 power=-8.45dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+[MSG3 ALLOC] tc-rnti=0x472a preamble_id=51 slot=888.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x472b preamble_id=53 slot=888.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x472c preamble_id=54 slot=888.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=888.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.07 power=-8.51dBFS
+[MSG3 ALLOC] tc-rnti=0x472d preamble_id=53 slot=889.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=889.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.03 power=-8.60dBFS
+[MSG3 ALLOC] tc-rnti=0x472e preamble_id=53 slot=890.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=890.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.07 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x472f preamble_id=50 slot=891.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4730 preamble_id=51 slot=891.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4731 preamble_id=53 slot=891.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4732 preamble_id=54 slot=891.17 CRBs=[26,29) nof_rbs=3
+[PRACH DETECT] slot=891.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.33dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x4733 preamble_id=50 slot=892.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4734 preamble_id=51 slot=892.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4735 preamble_id=53 slot=892.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4736 preamble_id=54 slot=892.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=894.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.01 power=-8.53dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.47dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.01 power=-8.52dBFS
+[MSG3 ALLOC] tc-rnti=0x4737 preamble_id=51 slot=895.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4738 preamble_id=53 slot=895.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4739 preamble_id=54 slot=895.17 CRBs=[14,17) nof_rbs=3
+[PRACH DETECT] slot=895.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.05 power=-8.53dBFS
+[MSG3 ALLOC] tc-rnti=0x473a preamble_id=53 slot=896.17 CRBs=[11,14) nof_rbs=3
+[PRACH DETECT] slot=896.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.02 power=-8.63dBFS
+[MSG3 ALLOC] tc-rnti=0x473b preamble_id=53 slot=897.17 CRBs=[11,14) nof_rbs=3
+[PRACH DETECT] slot=897.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.33dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.35dBFS
+[MSG3 ALLOC] tc-rnti=0x473c preamble_id=50 slot=898.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x473d preamble_id=51 slot=898.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x473e preamble_id=53 slot=898.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x473f preamble_id=54 slot=898.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=898.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x4740 preamble_id=50 slot=899.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4741 preamble_id=51 slot=899.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4742 preamble_id=53 slot=899.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4743 preamble_id=54 slot=899.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=901.19 rssi=-1.4dB detected 2 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.07 power=-8.52dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.00 power=-8.57dBFS
+[MSG3 ALLOC] tc-rnti=0x4744 preamble_id=53 slot=902.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4745 preamble_id=54 slot=902.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=902.19 rssi=-1.5dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.04 power=-8.61dBFS
+[MSG3 ALLOC] tc-rnti=0x4746 preamble_id=53 slot=903.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=903.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.48dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x4747 preamble_id=50 slot=904.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4748 preamble_id=51 slot=904.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4749 preamble_id=53 slot=904.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x474a preamble_id=54 slot=904.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=904.19 rssi=-1.5dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.53dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.42dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.38dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x474b preamble_id=50 slot=905.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x474c preamble_id=51 slot=905.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x474d preamble_id=53 slot=905.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x474e preamble_id=54 slot=905.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=906.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.44dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.39dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.43dBFS
+[MSG3 ALLOC] tc-rnti=0x474f preamble_id=51 slot=907.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4750 preamble_id=53 slot=907.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4751 preamble_id=54 slot=907.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=907.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.01 power=-8.51dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.08 power=-8.44dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+[MSG3 ALLOC] tc-rnti=0x4752 preamble_id=51 slot=908.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4753 preamble_id=53 slot=908.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4754 preamble_id=54 slot=908.17 CRBs=[20,23) nof_rbs=3
+[PRACH DETECT] slot=908.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.06 power=-8.54dBFS
+[MSG3 ALLOC] tc-rnti=0x4755 preamble_id=53 slot=909.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=909.19 rssi=-1.4dB detected 1 preamble(s):
+  preamble_idx=53 ta=10.16us detection_metric=1.02 power=-8.64dBFS
+[MSG3 ALLOC] tc-rnti=0x4756 preamble_id=53 slot=910.17 CRBs=[8,11) nof_rbs=3
+[PRACH DETECT] slot=910.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.03 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.13 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x4757 preamble_id=50 slot=911.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4758 preamble_id=51 slot=911.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4759 preamble_id=53 slot=911.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x475a preamble_id=54 slot=911.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=911.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.39dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+[MSG3 ALLOC] tc-rnti=0x475b preamble_id=50 slot=912.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x475c preamble_id=51 slot=912.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x475d preamble_id=53 slot=912.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x475e preamble_id=54 slot=912.17 CRBs=[26,29) nof_rbs=3
+[PRACH DETECT] slot=912.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.01 power=-8.52dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.05 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x475f preamble_id=50 slot=913.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4760 preamble_id=51 slot=913.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4761 preamble_id=53 slot=913.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4762 preamble_id=54 slot=913.17 CRBs=[26,29) nof_rbs=3
+[PRACH DETECT] slot=913.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.03 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.10 power=-8.41dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.03 power=-8.46dBFS
+[MSG3 ALLOC] tc-rnti=0x4763 preamble_id=51 slot=914.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4764 preamble_id=53 slot=914.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4765 preamble_id=54 slot=914.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=914.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.00 power=-8.56dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.07 power=-8.48dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.00 power=-8.54dBFS
+[MSG3 ALLOC] tc-rnti=0x4766 preamble_id=51 slot=915.17 CRBs=[17,20) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4767 preamble_id=53 slot=915.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4768 preamble_id=54 slot=915.17 CRBs=[23,26) nof_rbs=3
+[PRACH DETECT] slot=915.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.35dBFS
+[MSG3 ALLOC] tc-rnti=0x4769 preamble_id=50 slot=916.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x476a preamble_id=51 slot=916.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x476b preamble_id=53 slot=916.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x476c preamble_id=54 slot=916.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=916.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.50dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.35dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.37dBFS
+[MSG3 ALLOC] tc-rnti=0x476d preamble_id=50 slot=917.17 CRBs=[20,23) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x476e preamble_id=51 slot=917.17 CRBs=[23,26) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x476f preamble_id=53 slot=917.17 CRBs=[26,29) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4770 preamble_id=54 slot=917.17 CRBs=[29,32) nof_rbs=3
+[PRACH DETECT] slot=917.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.49dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.06 power=-8.38dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.34dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.07 power=-8.36dBFS
+[MSG3 ALLOC] tc-rnti=0x4771 preamble_id=50 slot=918.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4772 preamble_id=51 slot=918.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4773 preamble_id=53 slot=918.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4774 preamble_id=54 slot=918.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=918.19 rssi=-1.4dB detected 4 preamble(s):
+  preamble_idx=50 ta=10.16us detection_metric=1.02 power=-8.51dBFS
+  preamble_idx=51 ta=10.16us detection_metric=1.05 power=-8.41dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.12 power=-8.36dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.06 power=-8.40dBFS
+[MSG3 ALLOC] tc-rnti=0x4775 preamble_id=50 slot=919.17 CRBs=[8,11) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4776 preamble_id=51 slot=919.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4777 preamble_id=53 slot=919.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x4778 preamble_id=54 slot=919.17 CRBs=[17,20) nof_rbs=3
+[PRACH DETECT] slot=919.19 rssi=-1.4dB detected 3 preamble(s):
+  preamble_idx=51 ta=10.16us detection_metric=1.04 power=-8.47dBFS
+  preamble_idx=53 ta=10.16us detection_metric=1.11 power=-8.41dBFS
+  preamble_idx=54 ta=10.16us detection_metric=1.04 power=-8.46dBFS
+[MSG3 ALLOC] tc-rnti=0x4779 preamble_id=51 slot=920.17 CRBs=[11,14) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x477a preamble_id=53 slot=920.17 CRBs=[14,17) nof_rbs=3
+[MSG3 ALLOC] tc-rnti=0x477b preamble_id=54 slot=920.17 CRBs=[17,20) nof_rbs=3
+Stopping...
+Logfile stored in /tmp/gnb.log

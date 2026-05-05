@@ -11,18 +11,18 @@ plt.rcParams.update({
     "axes.linewidth":   0.8,
 })
 
-# ── Data from gNB log: Frame 997, slot 19 ─────────────────────────────────
+# ── Data from gNB log (oai-fdm16.log): Frame 285, slot 19 ─────────────────
 fdm0_energy = [
-    48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,
-    48.0,48.0,48.0,48.0,48.0,47.8,48.0,48.0,48.0,51.0,48.0,48.0,48.0,51.0,48.0,48.0,
-    48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,
-    54.9,52.7,54.0,55.7,48.0,51.0,48.0,48.0,51.0,48.0,48.0,48.0,48.0,48.0,48.0,48.0,
+    51.0,51.0,51.0,51.0,51.0,51.0,52.7,48.0,48.0,51.0,51.0,51.0,51.0,51.0,51.0,51.0,
+    51.0,52.7,48.0,51.0,51.0,51.0,51.0,52.7,48.0,51.0,51.0,51.0,48.0,51.0,51.0,48.0,
+    52.7,52.7,51.0,52.7,51.0,51.0,51.0,48.0,51.0,51.0,48.0,51.0,51.0,51.0,51.0,51.0,
+    51.0,51.0,52.7,48.0,51.0,51.0,48.0,48.0,48.0,51.0,51.0,48.0,52.7,51.0,51.0,51.0,
 ]
 fdm1_energy = [
-    44.8,44.7,44.9,44.7,44.3,43.7,44.4,43.7,44.8,45.1,44.7,44.8,44.4,44.8,44.8,45.0,
-    42.9,43.6,44.2,43.3,43.5,43.5,43.9,43.1,43.1,45.9,43.2,43.4,43.8,45.2,44.4,44.7,
-    43.0,43.1,43.8,42.8,43.2,43.5,43.4,44.2,42.1,43.2,42.9,42.5,44.0,44.6,45.0,45.0,
-    52.7,51.0,52.7,51.0,45.2,46.0,44.4,45.0,45.3,43.4,42.4,43.5,44.8,43.1,44.5,42.6,
+    44.8,45.1,44.9,45.5,44.9,45.3,45.5,44.3,43.8,45.8,45.3,44.7,45.2,46.3,45.3,45.2,
+    46.0,46.6,45.2,45.5,44.0,44.7,44.6,45.9,44.0,44.5,44.5,43.9,44.5,46.0,45.1,45.9,
+    45.1,45.0,44.2,45.5,46.1,45.2,45.9,45.5,45.8,45.6,44.8,45.5,44.2,45.1,45.6,44.8,
+    44.1,45.2,46.0,43.5,45.0,44.6,44.6,44.3,44.9,45.9,44.5,44.7,45.6,45.7,44.2,45.2,
 ]
 fdm1_idx = list(range(64))
 preamble_idx = list(range(64))
@@ -51,7 +51,7 @@ ax_top.set_facecolor("white")
 ax_top.set_xlim(-0.6, 8.2)
 ax_top.set_ylim(-0.6, 2.7)
 ax_top.axis("off")
-ax_top.set_title("(a)  PRACH Resource Grid — Frame 997, Slot 19",
+ax_top.set_title("(a)  PRACH Resource Grid — Frame 285, Slot 19",
                  fontsize=12, fontweight="bold", color=BLACK, pad=6, loc="left", x=0.0)
 
 SLOT_LABELS = ["slot 15", "slot 16", "slot 17", "slot 18",
@@ -151,7 +151,7 @@ ax_bot.set_ylim(38, 62)
 ax_bot.set_xlabel("Preamble Index", fontsize=11, color=BLACK)
 ax_bot.set_ylabel("Detected Energy (dB)", fontsize=11, color=BLACK)
 ax_bot.set_title(
-    "(b)  Detected Preamble Energy — Frame 997, Slot 19  (Same PRACH Slot, 2 FDM Occasions)",
+    "(b)  Detected Preamble Energy — Frame 285, Slot 19  (Same PRACH Slot, 2 FDM Occasions)",
     fontsize=12, fontweight="bold", color=BLACK, pad=6, loc="left", x=0.0)
 
 ax_bot.tick_params(labelsize=9, colors=BLACK)
@@ -160,12 +160,12 @@ ax_bot.grid(axis="y", color=LGRAY, linewidth=0.7, zorder=1)
 for sp in ["left", "bottom"]:
     ax_bot.spines[sp].set_color(MGRAY)
 
-# Annotate peak preambles (FDM 0)
-for idx, val in [(48, 54.9), (49, 52.7), (50, 54.0), (51, 55.7)]:
-    ax_bot.text(idx - bar_w/2, val + 0.25, f"{val}", ha="center", va="bottom",
-                fontsize=6.5, color=BLUE, fontweight="bold")
+# Annotate peak preambles (FDM 0: 52.7 dB peaks)
+for idx in [6, 17, 23, 32, 33, 35, 50, 60]:
+    ax_bot.text(idx - bar_w/2, 52.7 + 0.25, "52.7", ha="center", va="bottom",
+                fontsize=6, color=BLUE, fontweight="bold")
 # Annotate peak preambles (FDM 1)
-for idx, val in [(48, 52.7), (50, 52.7)]:
+for idx, val in [(13, 46.3), (17, 46.6), (29, 46.0), (36, 46.1)]:
     ax_bot.text(idx + bar_w/2, val + 0.25, f"{val}", ha="center", va="bottom",
                 fontsize=6.5, color=ORANGE, fontweight="bold")
 

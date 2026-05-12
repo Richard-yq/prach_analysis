@@ -7,8 +7,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Use oai-fdm12.log for reference
-LOG_FILE = Path(__file__).parent / "oai-fdm12.log"
+# Use oai-fdm24.log for reference
+LOG_FILE = Path(__file__).parent / "oai-fdm24.log"
 OUT_DIR = Path(__file__).parent
 
 RAPROC_PAT = re.compile(r"\[RAPROC\] Frame (\d+), slot (\d+), fdm (\d+)")
@@ -48,9 +48,9 @@ def parse_log():
 def main():
     raproc, ra_init, ra_drop = parse_log()
     
-    # Get all occasions and filter by frame 219 to 250
+    # Get all occasions and filter by frame 960 to 976
     all_occasions = sorted(set(raproc.keys()) | set(ra_init.keys()) | set(ra_drop.keys()))
-    filtered_occasions = [(f, s) for f, s in all_occasions if 219 <= f <= 250]
+    filtered_occasions = [(f, s) for f, s in all_occasions if 960 <= f <= 976]
     
     x = np.arange(len(filtered_occasions))
     labels = [f"{f}.{s}" for f, s in filtered_occasions]
@@ -69,7 +69,7 @@ def main():
     ax.plot(x, dropped, marker='x', linestyle='-.', color='#e74c3c', label='Dropped Preambles (No free RA process)', linewidth=2, markersize=6)
     
     # Capacity limit line
-    ax.axhline(y=4, color='#c0392b', linestyle='--', linewidth=2, label='System RAR Capacity Limit (Max 4)')
+    ax.axhline(y=4, color='#c0392b', linestyle='--', linewidth=2, label='OAI gNB RAR Capacity Limit (Max 4)')
     
     # Add text for RARs
     for i in range(len(x)):
@@ -88,23 +88,23 @@ def main():
         ax.set_xticks(x)
         ax.set_xticklabels(labels, rotation=45, ha='right')
         
-    ax.set_xlabel('RACH Occasion (Frame.Slot)', fontsize=12)
+    ax.set_xlabel('Random Access Occasion (Frame.Slot)', fontsize=12)
     ax.set_ylabel('Count', fontsize=12)
     
     # Add dynamic y-limit to ensure annotations are not cut off
     max_val = max([max(detected) if detected else 0, max(dropped) if dropped else 0, 4])
     ax.set_ylim(0, max_val * 1.2)
     
-    ax.set_title('Resource Exhaustion Concept (Frames 219-250)', fontsize=14, fontweight='bold')
+    ax.set_title('Resource Exhaustion Concept (Frames 960-976)', fontsize=14, fontweight='bold')
     
     # Custom grid
     ax.grid(True, linestyle=':', alpha=0.7)
     
     # Legend
-    ax.legend(loc='upper right', fontsize=11)
+    ax.legend(loc='upper right', bbox_to_anchor=(1.0, 0.65), fontsize=11)
     
     plt.tight_layout()
-    out = OUT_DIR / "resource_exhaustion_concept_fdm12.png"
+    out = OUT_DIR / "resource_exhaustion_concept_fdm24.png"
     plt.savefig(out, dpi=150)
     plt.close(fig)
     print(f"Saved to {out}")

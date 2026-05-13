@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Msg3 攻擊與緩解 - 簡報架構建議</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --secondary: #475569;
+            --accent: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .slide-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-top: 5px solid var(--primary);
+            transition: transform 0.2s ease;
+        }
+
+        .slide-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .slide-card[data-type="attack"] { border-top-color: var(--accent); }
+        .slide-card[data-type="mitigation"] { border-top-color: #10b981; }
+        .slide-card[data-type="data-attack"] { border-top-color: #f59e0b; }
+        .slide-card[data-type="data-mitigation"] { border-top-color: #3b82f6; }
+
+        .slide-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .slide-number {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            margin-right: 1rem;
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-top: 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            color: var(--text-main);
+        }
+
+        .highlight {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        code {
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+            color: #0f172a;
+        }
+
+        .tip-box {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-top: 3rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip-box h4 {
+            margin-top: 0;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>簡報架構規劃建議</h1>
+    <div class="subtitle">針對 Msg3 攔截攻擊 (Opportunistic Attack) 與防禦機制的展示架構</div>
+
+    <!-- Slide 1 -->
+    <div class="slide-card" data-type="attack">
+        <div class="slide-header">
+            <span class="slide-number">投影片 1</span>
+            <h2>Msg3 攔截與破壞攻擊：實作與機制 (Msg3 Hijacking & Corruption Attack)</h2>
+        </div>
+        <div class="slide-content">
+            <h3>攻擊概念 (Concept)</h3>
+            <ul>
+                <li>攻擊者 <strong>不主動發送</strong> PRACH (Msg1) 以節省發射能量並隱蔽行蹤。</li>
+                <li><strong>寄生攔截 (Parasitic Interception)：</strong> 攻擊者持續監聽網路中的 RAR (Msg2)，只要收到任何 RAR，無論其 <code>RAPID</code> 是否匹配，皆強制接收並占用該 Uplink Grant (程式碼修改：<code>rarh->RAPID >= 0</code>)。</li>
+            </ul>
+
+            <h3>破壞手段 (Execution)</h3>
+            <ul>
+                <li>在 PHY 層攔截 Msg3 Payload，將原本的資料與 CRC 替換為 <span class="highlight">隨機亂碼 (rand() % 256)</span>。</li>
+                <li>利用攔截到的 Uplink Grant 發送損壞的 Msg3，導致 gNB 發生 CRC Error 且無法解碼，進而引發無效的 HARQ 重傳。</li>
+                <li><strong>MAC 層無限迴圈：</strong> 移除 Msg3 傳輸狀態的更新，並大幅增加 <code>preambleTransMax</code> (例如調整為 3000 以上)，讓攻擊 UE 永遠處於等待與攔截狀態。</li>
+            </ul>
+
+            <h3>視覺化建議</h3>
+            <p>畫一個簡單的循序圖 (Sequence Diagram)，顯示合法 UE 發送 Msg1，gNB 回覆 Msg2 (RAR)，但 <strong>攻擊者搶先用這個 RAR 的 Grant 發送了亂碼 Msg3</strong>，導致合法 UE 的 Msg3 發生碰撞或 gNB 資源被浪費。</p>
+        </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide-card" data-type="mitigation">
+        <div class="slide-header">
+            <span class="slide-number">投影片 2</span>
+            <h2>基於 O-RAN 架構之 Msg3 異常偵測與緩解 (Msg3 Anomaly Detection & Mitigation)</h2>
+        </div>
+        <div class="slide-content">
+            <h3>偵測邏輯 (Detection Logic)</h3>
+            <ul>
+                <li>此攻擊會導致 gNB 成功發送 RAR (<code>ra_initiated</code> 增加)，但隨後的 Msg3 永遠無法成功解碼 (CRC Failure 飆高)。</li>
+                <li>rApp 透過 O1/E2 介面監控 KPI：若發現 <strong>RAR 發送數量正常，但 RRC Setup Request (Msg3) 解碼成功率趨近於 0 (或是 HARQ 失敗率極高)</strong>，即觸發 Msg3 攻擊警報。</li>
+            </ul>
+
+            <h3>緩解機制 (Mitigation Action)</h3>
+            <ul>
+                <li>rApp 下達指令重啟/重配 gNB 的 RACH 參數。</li>
+                <li>動態調整 PRACH Occasion，或是利用 MAC 層排程器動態黑名單過濾異常的 Uplink 行為，恢復合法 UE 的連線能力。</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide-card" data-type="data-attack">
+        <div class="slide-header">
+            <span class="slide-number">投影片 3</span>
+            <h2>Msg3 攻擊測試結果驗證 (Validation of Msg3 Attack)</h2>
+        </div>
+        <div class="slide-content">
+            <h3>Attacker (UE) 端數據展示</h3>
+            <ul>
+                <li>放上自定義的 LOG 截圖，標註關鍵字：
+                    <ul>
+                        <li><code>Payload modified</code> (證明成功攔截並進入修改邏輯)</li>
+                        <li><code>Modified Payload (payload_AB): 隨機 Hex Data</code> (證明 Payload 被成功置換)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Victim (gNB) 端數據展示</h3>
+            <ul>
+                <li>展示 gNB 端的 Log 顯示 <strong>PUSCH CRC Failure</strong> 或是 <strong>Msg3 解碼失敗 / HARQ Timeout</strong>。</li>
+                <li><strong>影響數據圖表：</strong> 展示在攻擊開啟時，合法 UE 的連線成功率 (Connection Success Rate) 瞬間掉到 0%，或是 gNB 的 PUSCH 資源利用率被無效資料佔滿。</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide-card" data-type="data-mitigation">
+        <div class="slide-header">
+            <span class="slide-number">投影片 4</span>
+            <h2>系統恢復與緩解成效 (Mitigation Effectiveness & System Recovery)</h2>
+        </div>
+        <div class="slide-content">
+            <h3>觸發緩解的 Log</h3>
+            <ul>
+                <li>展示 rApp (或 SMO) 偵測到 Msg3 異常並發出警報 (<code>prachAttackDetected</code> / Msg3 CRC anomaly) 的紀錄。</li>
+            </ul>
+
+            <h3>恢復正常連線的圖表/數據</h3>
+            <ul>
+                <li>以時間軸圖表 (Time-series plot) 呈現三個階段：
+                    <ol>
+                        <li><strong>Phase 1 (正常)</strong>：連線成功率 100%。</li>
+                        <li><strong>Phase 2 (攻擊開始)</strong>：Msg3 CRC Error 飆升，連線成功率降至 0%。</li>
+                        <li><strong>Phase 3 (緩解觸發)</strong>：系統套用防禦機制，惡意流量被阻擋或規避，合法 UE 連線成功率恢復。</li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tip Box -->
+    <div class="tip-box">
+        <h4>💡 報告排版小建議</h4>
+        <p>您可以把程式碼 Diff 中最精華的部分擷取出來，例如 <code>harq_process->payload_AB[i] = rand() % 256;</code> 以及 <code>if (rarh->RAPID >= 0)</code>，用紅框圈起來放在「投影片 1」旁邊。<br>這樣指導教授或台下聽眾一看就能馬上理解這個攻擊是如何在 OAI 源碼中以極低的成本（改幾行 Code）造成極大的破壞，非常有說服力。</p>
+    </div>
+
+</div>
+
+</body>
+</html>

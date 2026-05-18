@@ -1,0 +1,155 @@
+# SSH configuration file
+# Read more about SSH config files: https://linux.die.net/man/5/ssh_config
+Host 192.168.8.106
+  HostName 192.168.8.106
+  User srs
+
+Host 192.168.8.43
+  HostName 192.168.8.43
+  User oai72
+
+Host 192.168.8.31
+  HostName 192.168.8.31
+  User oai-gnb
+
+Host r750oai72
+  HostName 192.168.8.43
+  User oai72
+
+Host 192.168.8.80
+  HostName 192.168.8.80
+  User user
+
+Host richard-vm
+  HostName 192.168.8.127
+  User richard
+
+Host 140.118.123.97
+HostName 140.118.123.97
+User rapi
+Port 60015
+
+Host 140.118.123.97
+HostName 140.118.123.97
+User rapi
+Port 60024
+
+Host bmwlab
+HostName 192.168.8.26
+User hpe
+IdentityFile C:\Users\User\.ssh\id_rsa_bmw
+
+Host eurecomNB
+HostName 172.24.11.60
+User chen
+IdentityFile C:\Users\User\.ssh\id_rsa
+
+Host 10.33.7.32
+HostName 10.33.7.32
+User yen0224
+
+Host oai-nfapi
+HostName 192.168.8.55
+User oai-nfapi
+
+Host 192.168.8.43
+HostName 192.168.8.43
+User gnb
+
+Host 192.168.1.104
+HostName 192.168.1.104
+User oaignb
+
+Host 192.168.8.29
+HostName 192.168.8.29
+User oai
+
+Host 192.168.8.122
+HostName 192.168.8.122
+User oaignb
+
+Host Near-RT-RIC-G
+HostName 192.168.8.209
+User ubuntu
+IdentityFile ~/.ssh/G_Near-RT_RIC.pem
+
+Host Near-RT-RIC-G
+HostName 192.168.8.209
+User ubuntu
+IdentityFile ~/.ssh/G_Near-RT_RIC.pem
+
+Host openvpn
+HostName 192.168.8.115
+User openvpn
+
+Host oaiue
+HostName 192.168.8.56
+User oaiue
+
+Host oaignb
+HostName 192.168.8.59
+User oaignb
+
+Host oai72_su
+  HostName 192.168.8.82
+  User oai72_su
+
+Host free5gc
+HostName 192.168.8.21
+User free5gc
+
+Host oai-cn
+HostName 192.168.8.108
+User oai-cn
+
+Host open5gs-yh2
+    HostName 192.168.8.106
+    User srs72
+
+Host TYgNB
+  HostName 192.168.8.13
+  User apl
+
+Host smo
+  HostName 192.168.8.121
+  User ksmo
+
+Host srsran-free
+  HostName 192.168.8.53
+  User srsran
+
+Host SMO
+  HostName 192.168.8.69
+  User ubuntu
+
+Host protoRU
+    HostName 192.168.8.106
+    User srs
+
+
+Host AUSUserver
+    HostName 192.168.8.35
+    User root
+
+
+
+Host Newton
+    HostName 192.168.8.53
+    User root
+
+
+
+Host Newtonrichard
+    HostName 192.168.8.53
+    User richard
+
+
+
+Host DGXNvidia
+    HostName 140.118.122.123
+    User admin
+
+
+Host oaiue2ra
+    HostName 192.168.8.13
+    User intel

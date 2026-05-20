@@ -1,0 +1,51 @@
+https://lf-o-ran-sc.atlassian.net/wiki/spaces/IAT/pages/361758725/Discussion+End-to-End+Integration
+
+blob:https://lf-o-ran-sc.atlassian.net/5ac5322c-c73c-456a-a096-43c8f73f4432
+
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant rApp as rApp
+    participant O1C as O1 Controller (如 SDNC)
+    participant Vault as Secret Vault
+    participant gNB as Destination (gNB)
+
+    rApp->>O1C: 1. 透過 R1 介面發送 REST 請求<br/>(Payload 僅含 gnbId, 不含帳密)
+    O1C->>Vault: 2. 依據 gnbId 取得 SSH/NETCONF 憑證
+    Vault-->>O1C: 3. 返回安全憑證
+    O1C->>gNB: 4. 建立 NETCONF over SSH 安全連線並下發配置 (O1 介面)
+```
+
+
+將 gNB 的帳密從 rApp 發送的 Payload 中剔除。
+在 Data Collect 元件 內對接一個簡單的安全憑證庫。
+rApp 請求時只需發送：{ "destination_ip": "x.x.x.x" } 或 { "node_id": "gNB-01" }。
+由 Data Collect 元件 根據 IP 或 Node ID 自行向後台庫存庫/憑證庫查詢對應的 SSH 帳密，避免帳密在網路上以 HTTP 明文到處流竄。
+
+
+API Gateway + Data Collect 元件設計，請務必按照以下方式進行架構微調，以符合基本安全規範：
+
+去帳密化：
+rApp 發送：POST /api/v1/collect-log，Payload 僅包含 { "gnb_id": "gNB-01", "log_type": "system" }。
+Data Collect 元件 收到請求後，藉由 gnb_id 向內部的安全憑證數據庫查詢 SSH 金鑰 (SSH Key) 或帳密。
+連線隔離：
+Data Collect 元件 使用非對稱金鑰 (SSH Key-based Authentication) 登入 gNB，避免使用帳號密碼。
+限制該 SSH Key 在 gNB 上的權限，使其僅能讀取日誌目錄（例如 /var/log/oradio/），防止 rApp 或元件被劫持時危及整台 gNB。
+
+
+
+https://lf-o-ran-sc.atlassian.net/wiki/spaces/IAT/pages/382959663/O1+specifics#RESTCONF
+
+RESTCONF
+
+To access the O1 interface from Northbound of the OAM Controller, the RESTCONF interface can be used. This can be used by the rApp directly, as a first step before the R1 interface is fully used.
+Example usage on retrieving the administrativeState with RESTCONF:
+```
+### @name getAdministrativeState
+# baseUrl needs to be replaced by the OAM FQDN SDN Controller RESTCONF interface (e.g. https://odlux.oam.smo.o-ran-sc.org)
+# {{node}} needs to be replaced by the name of the O-DU (e.g. pynts-o-du-o1)
+
+curl -X GET -H "Content-Type: application/yang-data+json" -H "Accept: application/yang-data+json" -u admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U {{baseUrl}}/rests/data/network-topology:network-topology/topology=topology-netconf/node={{node}}/yang-ext:mount/_3gpp-common-managed-element:ManagedElement=ManagedElement-002/_3gpp-nr-nrm-gnbdufunction:GNBDUFunction=GNBDUFunction-001/_3gpp-nr-nrm-nrcelldu:NRCellDU=NRCellDU-001/attributes/administrativeState
+
+```

@@ -1,0 +1,41 @@
+preamble, UE tx power, RACH result
+49,-20, Success
+3, -20, Success
+32, -20, Success
+
+28,-20, fail at RAR
+5,-14, fail at RAR
+31,-8, fail at RAR
+22,-2, fail at RAR
+47,10, fail at RAR
+4,16, fail at RAR
+21,20, fail at RAR
+5,20, fail at RAR
+26,20, fail at RAR
+4,20, fail at RAR
+35,20, fail at RAR
+9,20, fail at RAR
+1,20, fail at RAR
+39,20, fail at RAR
+37,20, fail at RAR
+50,20, fail at RAR
+51,20, fail at RAR
+58,20, fail at RAR
+25,20, fail at RAR
+59,20, fail at RAR
+18,20, fail at RAR
+39,20, fail at RAR
+51,20, fail at RAR
+12,20, fail at RAR
+38,20, fail at RAR
+45,20, fail at RAR
+41,20, fail at RAR
+22,20, fail at RAR
+22,20, fail at RAR
+58,20, fail at RAR
+18,20, fail at RAR
+7,20, fail at RAR
+
+39,-20, success
+56,-20, success
+

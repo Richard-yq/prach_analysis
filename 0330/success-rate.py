@@ -14,7 +14,10 @@ failed_tests = total_tests - success_tests
 success_rate = success_tests / total_tests * 100
 
 # 讀取重複測試的成功率
-repeat_tests_df = pd.read_csv(csv_dir / 'repeat_tests.csv')
+repeat_tests_path = csv_dir / 'UE-repeat_tests.csv'
+if not repeat_tests_path.exists():
+	repeat_tests_path = csv_dir / 'repeat_tests.csv'
+repeat_tests_df = pd.read_csv(repeat_tests_path)
 repeat_success_rate = repeat_tests_df['success_rate'].values
 repeat_rounds = len(repeat_success_rate)
 repeat_std = repeat_success_rate.std()

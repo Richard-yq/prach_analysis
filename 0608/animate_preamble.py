@@ -27,7 +27,7 @@ THR_DB        = -15.0
 NOISE_STD     = 0.10          # complex AWGN std per component
 
 # The 16 root indices requested by the user
-ROOT_INDICES = [1, 138, 2, 137, 3, 136, 4, 135, 5, 134, 6, 133, 7, 132, 8, 131]
+ROOT_INDICES = [1, 138, 2, 137, 3, 136, 4, 135, 5, 134, 6, 133, 7, 132, 8, 131] # 38.211 Table 6.3.3.1-4:
 
 # Aesthetics
 COLORS = ["#C62828", "#1565C0", "#2E7D32", "#7B1FA2"]

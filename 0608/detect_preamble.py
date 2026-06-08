@@ -213,8 +213,11 @@ for i, (v, k_exp, k_act) in enumerate(zip(PREAMBLE_V, expected_lags, detected_la
                 edgecolors="#333333", linewidths=0.9)
     ax3.axvline(k_act,
                 color=COLORS[i], linewidth=0.9, linestyle=":", alpha=0.6, zorder=3)
+    
+    # Global preamble index (Root u=138 is the 2nd root index, generating preambles 4 to 7)
+    v_global = 4 + v
     ax3.annotate(
-        f"Preamble ${v}$\n"
+        f"Preamble ${v_global}$\n"
         f"$k={v}\\times{NCS}={k_act}$  ✓",
         xy=(k_act, db_val),
         xytext=(cfg["tx"], cfg["ty"]),

@@ -179,15 +179,19 @@ def animate(frame_idx):
         {"tx": 72,  "ty": -20, "ha": "left"},
         {"tx": 106, "ty": -20, "ha": "left"},
     ]
+
     for i, (v, k_act, y_val) in enumerate(zip(PREAMBLE_V, detected_lags, peak_y)):
         # Vertical line
         vl = ax_corr.axvline(k_act, color=COLORS[i], linewidth=0.9, linestyle=":", alpha=0.7, zorder=3)
         vlines.append(vl)
         
+        # Global preamble index
+        v_global = frame_idx * NUM_PREAMBLES + v
+        
         # Annotation box
         cfg = annot_cfg[i]
         ann = ax_corr.annotate(
-            f"Preamble ${v}$\n$k={k_act}$",
+            f"Preamble ${v_global}$\n$k={k_act}$",
             xy=(k_act, y_val),
             xytext=(cfg["tx"], cfg["ty"]),
             color=COLORS[i], fontsize=8.5, fontweight="bold", ha=cfg["ha"],

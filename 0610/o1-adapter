@@ -1,0 +1,8 @@
+./start_gnb.sh
+
+./execute_o1_adapter.sh
+
+./start_attacker.sh
+
+[TELNETSRV] Telnet client connected....
+

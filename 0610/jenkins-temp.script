@@ -1,0 +1,69 @@
+pipeline {
+    agent { label 'jenkins-agent-01' }
+    
+    // 在 Jenkins 啟動時可供填寫/修改的參數
+    parameters {
+        string(name: 'SCRIPT_PATH', defaultValue: '/home/hpe/ming-logs/exp_bandwidth.py', description: 'Python 腳本的絕對路徑')
+        string(name: 'SERVER', defaultValue: 'hpe', description: '--server 參數值')
+        string(name: 'BANDWIDTH', defaultValue: '100,300,500,700,900,1000', description: '--bandwidth 參數值 (以逗號分隔)')
+        string(name: 'PERIOD', defaultValue: '60', description: '--period 參數值')
+        string(name: 'GAP_TIME', defaultValue: '10', description: '--gap-time 參數值')
+    }
+
+    environment {
+        // 設定 SSH 密碼與目標機器
+        SSH_PASS = 'bmwlab'
+        SSH_TARGET = 'hpe@192.168.8.26'
+        // 設定 SSH 指令，並略過憑證檢查
+        SSH_CMD = "sshpass -p '${SSH_PASS}' ssh -o StrictHostKeyChecking=no ${SSH_TARGET}"
+    }
+
+    stages {
+        stage('Prepare Environment') {
+            steps {
+                // 檢查並自動安裝 sshpass 套件
+                sh '''
+                    if ! command -v sshpass &> /dev/null; then
+                        echo "sshpass could not be found, detecting OS to install..."
+                        
+                        if command -v apt-get &> /dev/null; then
+                            apt-get update && apt-get install -y sshpass
+                        elif command -v dnf &> /dev/null; then
+                            dnf install -y epel-release || true
+                            dnf install -y sshpass
+                        elif command -v yum &> /dev/null; then
+                            yum install -y epel-release || true
+                            yum install -y sshpass
+                        elif command -v apk &> /dev/null; then
+                            apk add sshpass
+                        else
+                            echo "Error: Cannot find package manager to install sshpass."
+                            exit 1
+                        fi
+                    else
+                        echo "sshpass is already installed."
+                    fi
+                '''
+            }
+        }
+        
+        stage('Execute automatic end-to-end experiments') {
+            steps {
+                // 將 Jenkins 參數帶入 SSH 執行的指令中
+                sh """
+                    echo "Connecting to ${SSH_TARGET} to execute Python script..."
+                    ${SSH_CMD} "python3 ${params.SCRIPT_PATH} --server ${params.SERVER} --bandwidth ${params.BANDWIDTH} --period ${params.PERIOD} --gap-time ${params.GAP_TIME}"
+                """
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo "Pipeline completed successfully! Python script executed."
+        }
+        failure {
+            echo "Pipeline failed. Please check the logs for more details."
+        }
+    }
+}

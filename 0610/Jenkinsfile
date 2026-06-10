@@ -221,6 +221,14 @@ pipeline {
     post {
         always {
             sh """
+                # ── 先備份 log（gNB 還活著，log 內容完整）──────────────────
+                echo "=== Saving logs before cleanup ==="
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                    "cp ${GNB_LOG} /tmp/gnb_snapshot.log 2>/dev/null; cp ${O1A_LOG} /tmp/o1a_snapshot.log 2>/dev/null; true" || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                    "cp ${ATK_LOG} /tmp/atk_snapshot.log 2>/dev/null; true" || true
+
+                # ── 停止所有元件 ──────────────────────────────────────────
                 echo "=== Cleanup ==="
 
                 echo "[ATK] Stopping attacker (if still running)..."
@@ -239,10 +247,11 @@ pipeline {
                 sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${CTL_HOST} \
                     'adb shell "settings put global airplane_mode_on 1" && adb shell "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true"' || true
 
+                # ── 從備份收 log（避免 gNB 被 kill 後重啟覆蓋原始檔）───────
                 echo "=== Collecting logs ==="
-                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat ${GNB_LOG}"  > gnb.log       2>/dev/null || true
-                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat ${O1A_LOG}"  > o1adapter.log 2>/dev/null || true
-                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} "cat ${ATK_LOG}"  > attacker.log  2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/gnb_snapshot.log"  > gnb.log       2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/o1a_snapshot.log"  > o1adapter.log 2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} "cat /tmp/atk_snapshot.log"  > attacker.log  2>/dev/null || true
                 echo "=== Logs collected ==="
             """
             archiveArtifacts artifacts: '*.log', allowEmptyArchive: true

@@ -7,7 +7,7 @@ pipeline {
         string(name: 'AIRPLANE_ON_SECONDS',  defaultValue: '5',   description: '飛航開啟（UE 斷線）持續秒數')
         string(name: 'GNB_READY_TIMEOUT',    defaultValue: '120', description: '等待 gNB Frame.Slot 逾時（秒）')
         string(name: 'O1_READY_TIMEOUT',     defaultValue: '60',  description: '等待 o1-adapter TELNETSRV 逾時（秒）')
-        string(name: 'ATK_SCRIPT',           defaultValue: '/home/oaiue/start_attacker.sh', description: 'oaiue 上 start_attacker.sh 的絕對路徑（用 find ~ -name start_attacker.sh 確認）')
+        string(name: 'ATK_SCRIPT',           defaultValue: '/home/oaiue/start_attacker', description: 'oaiue 上 start_attacker 的絕對路徑')
     }
 
     environment {

@@ -1,0 +1,254 @@
+pipeline {
+    agent { label 'jenkins-agent-01' }
+
+    parameters {
+        string(name: 'TOGGLE_CYCLES',        defaultValue: '3',   description: '每個階段飛航開關循環次數（每次 = OFF 一段 + ON 一段）')
+        string(name: 'AIRPLANE_OFF_SECONDS', defaultValue: '5',  description: '飛航關閉（UE 嘗試接入）持續秒數')
+        string(name: 'AIRPLANE_ON_SECONDS',  defaultValue: '5',   description: '飛航開啟（UE 斷線）持續秒數')
+        string(name: 'GNB_READY_TIMEOUT',    defaultValue: '120', description: '等待 gNB Frame.Slot 逾時（秒）')
+        string(name: 'O1_READY_TIMEOUT',     defaultValue: '60',  description: '等待 o1-adapter TELNETSRV 逾時（秒）')
+        string(name: 'ATK_SCRIPT',           defaultValue: '/home/oaiue/start_attacker', description: 'oaiue 上 start_attacker 的絕對路徑')
+        string(name: 'ATTACK_DURATION',      defaultValue: '10',  description: 'Attacker 獨立運作持續秒數（秒）')
+    }
+
+    environment {
+        SSH_PASS = 'bmwlab'
+        GNB_HOST = 'oaignb@192.168.8.59'
+        CTL_HOST = 'control-PC@192.168.8.102'
+        ATK_HOST = 'oaiue@192.168.8.56'
+        SSH_OPTS = '-o StrictHostKeyChecking=no -o ConnectTimeout=10'
+        GNB_LOG  = '/home/oaignb/OAI_gNB.log'
+        O1A_LOG  = '/tmp/o1adapter_jenkins.log'
+        ATK_LOG  = '/tmp/attacker_jenkins.log'
+    }
+
+    stages {
+
+        // ── 0. 確認 sshpass 已安裝；設定 sudo NOPASSWD ───────────────────────
+        stage('Prepare Environment') {
+            steps {
+                sh '''
+                    if ! command -v sshpass &>/dev/null; then
+                        echo "Installing sshpass..."
+                        if   command -v apt-get &>/dev/null; then apt-get update -qq && apt-get install -y sshpass
+                        elif command -v yum     &>/dev/null; then yum install -y sshpass
+                        elif command -v dnf     &>/dev/null; then dnf install -y sshpass
+                        else echo "ERROR: no package manager found"; exit 1
+                        fi
+                    fi
+                    echo "sshpass: $(sshpass -V 2>&1 | head -1)"
+                '''
+                sh """
+                    echo "=== [oaignb] Configuring passwordless sudo ==="
+                    sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                        "echo 'oaignb ALL=(ALL) NOPASSWD: ALL' > /tmp/sudoers_oaignb && echo '${SSH_PASS}' | sudo -S cp /tmp/sudoers_oaignb /etc/sudoers.d/oaignb-jenkins && echo '${SSH_PASS}' | sudo -S chmod 440 /etc/sudoers.d/oaignb-jenkins && rm /tmp/sudoers_oaignb"
+                    echo "=== [oaignb] sudo NOPASSWD configured ==="
+
+                    echo "=== [oaiue] Configuring passwordless sudo ==="
+                    sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                        "echo 'oaiue ALL=(ALL) NOPASSWD: ALL' > /tmp/sudoers_oaiue && echo '${SSH_PASS}' | sudo -S cp /tmp/sudoers_oaiue /etc/sudoers.d/oaiue-jenkins && echo '${SSH_PASS}' | sudo -S chmod 440 /etc/sudoers.d/oaiue-jenkins && rm /tmp/sudoers_oaiue"
+                    echo "=== [oaiue] sudo NOPASSWD configured ==="
+                """
+            }
+        }
+
+        // ── 1. 啟動 gNB，等待 scheduler 就緒 ───────────────────────────────
+        stage('Start gNB') {
+            steps {
+                sh """
+                    echo "=== [gNB] Killing any existing nr-softmodem ==="
+                    sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                        "sudo pkill -9 nr-softmodem 2>/dev/null; sleep 2; echo done" || true
+
+                    echo "=== [gNB] Starting gNB ==="
+                    sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                        "nohup bash ./start_gnb.sh > /tmp/start_gnb_wrapper.log 2>&1 < /dev/null &"
+
+                    echo "=== [gNB] Waiting 20s for nr-softmodem to spawn ==="
+                    sleep 20
+                    if ! sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "pgrep nr-softmodem > /dev/null 2>&1"; then
+                        echo "--- nr-softmodem not running, attempting USB reset and retry ---"
+                        sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "tail -10 ${GNB_LOG}" || true
+
+                        echo "=== [gNB] Resetting USRP (2500:0020) ==="
+                        sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "sudo usbreset 2500:0020" || true
+                        sleep 10
+
+                        echo "=== [gNB] Retrying gNB start ==="
+                        sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                            "nohup bash ./start_gnb.sh > /tmp/start_gnb_wrapper.log 2>&1 < /dev/null &"
+                        sleep 20
+
+                        sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                            "pgrep nr-softmodem > /dev/null 2>&1 || { echo 'ERROR: nr-softmodem still not running after USB reset'; tail -20 /tmp/start_gnb_wrapper.log; tail -20 ${GNB_LOG}; exit 1; }"
+                    fi
+
+                    echo "=== [gNB] Waiting for Frame.Slot (timeout=${params.GNB_READY_TIMEOUT}s) ==="
+                    TIMEOUT=${params.GNB_READY_TIMEOUT}
+                    ELAPSED=0
+                    until sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                              "grep -q 'Frame.Slot' ${GNB_LOG} 2>/dev/null"; do
+                        if [ \$ELAPSED -ge \$TIMEOUT ]; then
+                            echo "TIMEOUT: gNB never reached Frame.Slot after \${TIMEOUT}s"
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "tail -50 ${GNB_LOG}" || true
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/start_gnb_wrapper.log" || true
+                            exit 1
+                        fi
+                        sleep 3; ELAPSED=\$((ELAPSED+3))
+                        echo "  [gNB] waiting... \${ELAPSED}s"
+                    done
+                    echo "=== [gNB] Scheduler ready ==="
+                """
+            }
+        }
+
+        // ── 2. Normal UE Toggle ──────────────────────────────────────────
+        stage('Normal UE Toggle') {
+            steps {
+                script {
+                    def cycles = params.TOGGLE_CYCLES.toInteger()
+                    def offSec = params.AIRPLANE_OFF_SECONDS.toInteger()
+                    def onSec  = params.AIRPLANE_ON_SECONDS.toInteger()
+                    def sshCmd = { String cmd ->
+                        sh(script: "sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${CTL_HOST} '${cmd}'")
+                    }
+
+                    echo "=== [Normal UE Toggle] ${cycles} airplane cycles (No Attacker, No o1-adapter) ==="
+                    for (int i = 0; i < cycles; i++) {
+                        echo "  [Normal UE Toggle] Cycle ${i+1}/${cycles}: Airplane OFF (UE tries to connect)..."
+                        sshCmd('adb shell "settings put global airplane_mode_on 0"')
+                        sshCmd('adb shell "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false"')
+                        sleep(offSec)
+
+                        echo "  [Normal UE Toggle] Cycle ${i+1}/${cycles}: Airplane ON (UE disconnected)..."
+                        sshCmd('adb shell "settings put global airplane_mode_on 1"')
+                        sshCmd('adb shell "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true"')
+                        sleep(onSec)
+                    }
+
+                    echo "=== [Normal UE Toggle] Saving gNB log as normal ==="
+                    sh "sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} 'cp ${GNB_LOG} /tmp/gnb_normal.log 2>/dev/null || true'"
+                }
+            }
+        }
+
+        // ── 3. Start Attacker (Only) ──────────────────────────────────────
+        stage('Start Attacker') {
+            steps {
+                script {
+                    def atkDur = params.ATTACK_DURATION.toInteger()
+
+                    echo "=== [ATK] Starting attacker on oaiue ==="
+                    sh """
+                        sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                            'nohup bash ${params.ATK_SCRIPT} > ${ATK_LOG} 2>&1 < /dev/null & echo \$! > /tmp/attacker.pid && echo "Attacker PID:\$(cat /tmp/attacker.pid)"'
+                    """
+
+                    echo "=== [ATK] Waiting 10s to verify attacker process ==="
+                    sleep 10
+                    sh """
+                        if ! sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                                'PID=\$(cat /tmp/attacker.pid 2>/dev/null); [ -n "\$PID" ] && kill -0 \$PID 2>/dev/null'; then
+                            echo "--- attacker not running, attempting USB reset and retry ---"
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} "tail -10 ${ATK_LOG}" || true
+
+                            echo "=== [ATK] Resetting USRP (2500:0020) ==="
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} "sudo usbreset 2500:0020" || true
+                            sleep 10
+
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                                'nohup bash ${params.ATK_SCRIPT} > ${ATK_LOG} 2>&1 < /dev/null & echo \$! > /tmp/attacker.pid && echo "Attacker PID (retry):\$(cat /tmp/attacker.pid)"'
+                            sleep 10
+
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                                'PID=\$(cat /tmp/attacker.pid 2>/dev/null); kill -0 \$PID 2>/dev/null || { echo "ERROR: attacker still not running after USB reset"; cat /tmp/attacker_jenkins.log; exit 1; }'
+                        fi
+                    """
+
+                    echo "=== [ATK] Running attacker solely for ${atkDur}s ==="
+                    sleep(atkDur)
+
+                    echo "=== [ATK] Saving attack-only gNB log ==="
+                    sh "sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} 'cp ${GNB_LOG} /tmp/gnb_attack_only.log 2>/dev/null || true'"
+                }
+            }
+        }
+
+        // ── 4. Start o1-adapter (Attacker remains running) ──────────────────
+        stage('Start o1-adapter') {
+            steps {
+                sh """
+                    echo "=== [o1] Starting o1-adapter ==="
+                    sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                        "nohup bash ./execute_o1_adapter.sh > ${O1A_LOG} 2>&1 < /dev/null & echo \"o1 PID=\$!\""
+
+                    echo "=== [o1] Waiting for [TELNETSRV] Telnet client connected (timeout=${params.O1_READY_TIMEOUT}s) ==="
+                    TIMEOUT=${params.O1_READY_TIMEOUT}
+                    ELAPSED=0
+                    until sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                              "grep -q 'TELNETSRV.*Telnet client connected' ${GNB_LOG} 2>/dev/null"; do
+                        if [ \$ELAPSED -ge \$TIMEOUT ]; then
+                            echo "TIMEOUT: o1-adapter did not connect after \${TIMEOUT}s"
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat ${O1A_LOG}" || true
+                            sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "tail -30 ${GNB_LOG}" || true
+                            exit 1
+                        fi
+                        sleep 2; ELAPSED=\$((ELAPSED+2))
+                        echo "  [o1] waiting... \${ELAPSED}s"
+                    done
+                    echo "=== [o1] Telnet client connected ==="
+
+                    echo "=== [o1] Saving final gNB log ==="
+                    sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} 'cp ${GNB_LOG} /tmp/gnb_final.log 2>/dev/null || true'
+                """
+            }
+        }
+    }
+
+    // ── 清理 ＋ 收集 log ────────────────────────────────────────────────────
+    post {
+        always {
+            sh """
+                echo "=== Saving logs before cleanup ==="
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                    "cp ${GNB_LOG} /tmp/gnb_snapshot.log 2>/dev/null; cp ${O1A_LOG} /tmp/o1a_snapshot.log 2>/dev/null; true" || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                    "cp ${ATK_LOG} /tmp/atk_snapshot.log 2>/dev/null; true" || true
+
+                echo "=== Cleanup ==="
+
+                echo "[ATK] Stopping attacker (if still running)..."
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} \
+                    'PID=\$(cat /tmp/attacker.pid 2>/dev/null); [ -n "\$PID" ] && kill \$PID 2>/dev/null; pkill -f start_attacker 2>/dev/null; true' || true
+
+                echo "[o1] Stopping o1-adapter..."
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                    "pkill -f execute_o1_adapter 2>/dev/null; true" || true
+
+                echo "[gNB] Stopping gNB..."
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} \
+                    "sudo pkill -9 nr-softmodem 2>/dev/null; sleep 2; true" || true
+
+                echo "[UE] Turning airplane mode ON (UE disconnected)..."
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${CTL_HOST} \
+                    'adb shell "settings put global airplane_mode_on 1" && adb shell "am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true"' || true
+
+                echo "=== Collecting logs ==="
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/gnb_normal.log"       > gnb_normal.log      2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/gnb_attack_only.log"  > gnb_attack_only.log 2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/gnb_final.log"        > gnb_final.log       2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/gnb_snapshot.log"     > gnb.log             2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${GNB_HOST} "cat /tmp/o1a_snapshot.log"     > o1adapter.log       2>/dev/null || true
+                sshpass -p '${SSH_PASS}' ssh ${SSH_OPTS} ${ATK_HOST} "cat /tmp/atk_snapshot.log"     > attacker.log        2>/dev/null || true
+                echo "=== Logs collected ==="
+            """
+            archiveArtifacts artifacts: '*.log', allowEmptyArchive: true
+        }
+        success {
+            echo "Demo pipeline completed successfully."
+        }
+        failure {
+            echo "Pipeline FAILED. Check archived logs for details."
+        }
+    }
+}
